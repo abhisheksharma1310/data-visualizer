@@ -1,0 +1,29 @@
+{
+  "name": "iot-data-visualizer",
+  "version": "1.0.0",
+  "description": "All in one IoT data visualizer tool",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhisheksharma1310/iot-data-visualizer.git"
+  },
+  "author": "Abhishek Sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhisheksharma1310/iot-data-visualizer/issues"
+  },
+  "homepage": "https://github.com/abhisheksharma1310/iot-data-visualizer#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "mongoose": "^8.6.1",
+    "node-schedule": "^2.1.1",
+    "serialport": "^12.0.0",
+    "socket.io": "^4.7.5"
+  }
+}
