@@ -13,8 +13,10 @@ export const serialData = (
       baudRate: baudRate,
     },
     (error) => {
-      if (!!error) {
-        return console.log("Error: ", err.message);
+      if (error) {
+        const msg = { error: error?.message };
+        console.log(msg);
+        res.status(404).json(msg);
       }
     }
   );
@@ -35,7 +37,8 @@ const convertToJson = (data) => {
     //console.log("json: ", jsonData);
     return jsonData;
   } catch (error) {
-    return console.log("Serial to json error: ", error);
-    //throw new Error("SERIAL TO JSON ERROR: " + error.message);
+    const msg = { error: error?.message };
+    console.log(msg);
+    res.status(404).json(msg);
   }
 };
