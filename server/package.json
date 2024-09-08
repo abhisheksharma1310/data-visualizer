@@ -20,6 +20,7 @@
   "homepage": "https://github.com/abhisheksharma1310/iot-data-visualizer#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "mongoose": "^8.6.1",
     "node-schedule": "^2.1.1",
