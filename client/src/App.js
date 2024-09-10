@@ -1,31 +1,30 @@
 import * as React from "react";
-import { JsonToTable } from "react-json-to-table";
-//import { useGetPokemonByNameQuery } from "./services/pokemon";
-import { useGetSerialDataQuery } from "./services/serialdata";
-
+import { ConfigProvider, theme } from "antd";
+import MainLayout from "./components/layout/main-layout";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import JsonTable from "./components/json-table";
 export default function App() {
-  // Using a query hook automatically fetches data and returns query values
-  //const { data, error, isLoading } = useGetPokemonByNameQuery("bulbasaur");
-  const { data, error, isLoading } = useGetSerialDataQuery();
-  console.log(error);
-  // Individual hooks are also accessible under the generated endpoints:
-  // const { data, error, isLoading } = pokemonApi.endpoints.getPokemonByName.useQuery('bulbasaur')
-
   return (
     <div className="App">
-      {error ? (
-        <>
-          Oh no, there was an error: {JSON.stringify(error)}
-          <JsonToTable json={error} />
-        </>
-      ) : isLoading ? (
-        <>Loading...</>
-      ) : data ? (
-        <>
-          <h3>{data.species.name}</h3>
-          <img src={data.sprites.front_shiny} alt={data.species.name} />
-        </>
-      ) : null}
+      <Router>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#00b96b",
+              colorBgContainer: "#001529",
+              colorPrimaryText: "#ffffff",
+              // 1. Use dark algorithm
+              algorithm: theme.darkAlgorithm,
+            },
+          }}
+        >
+          <MainLayout>
+            <Routes>
+              <Route path="/serial-data" element={<JsonTable />} />
+            </Routes>
+          </MainLayout>
+        </ConfigProvider>
+      </Router>
     </div>
   );
 }
