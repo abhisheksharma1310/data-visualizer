@@ -10,7 +10,7 @@ export const serialData = (
   const port = new SerialPort(
     {
       path: comPort,
-      baudRate: baudRate,
+      baudRate: Number(baudRate),
     },
     (error) => {
       if (error) {

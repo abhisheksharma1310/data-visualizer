@@ -11,7 +11,7 @@ export default function App() {
           theme={{
             token: {
               colorPrimary: "#00b96b",
-              colorBgContainer: "#001529",
+              // colorBgContainer: "#001529",
               colorPrimaryText: "#ffffff",
               // 1. Use dark algorithm
               algorithm: theme.darkAlgorithm,

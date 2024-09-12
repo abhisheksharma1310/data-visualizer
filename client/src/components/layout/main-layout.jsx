@@ -76,7 +76,7 @@ const MainLayout = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG, colorPrimaryText },
   } = theme.useToken();
   const primaryStyle = {
-    background: colorBgContainer,
+    background: "#001529",
     color: colorPrimaryText,
   };
   return (
