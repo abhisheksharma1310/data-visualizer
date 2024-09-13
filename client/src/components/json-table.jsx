@@ -14,11 +14,50 @@ export default function JsonTable() {
     datatype: "json",
   });
 
-  const { data, error, isLoading } = useGetSerialDataQuery(inputData);
+  const [inputOptions, setInputOptions] = useState({
+    pollingInterval: 0,
+    refetchOnMountOrArgChange: false,
+    skip: false,
+  });
+
+  const [query, setQuery] = useState({ inputData, inputOptions });
+
+  const { data, error, isLoading, isFetching } = useGetSerialDataQuery(
+    query.inputData,
+    query.inputOptions
+  );
 
   const onInputChange = (event = {}) => {
-    //const { name, value } = event?.target;
-    console.log(event);
+    const { name, value } = event?.target;
+    setInputData((p) => {
+      return {
+        ...p,
+        [name]: value,
+      };
+    });
+  };
+
+  const onSelectChange = (value) => {
+    setInputData((p) => {
+      return {
+        ...p,
+        datatype: value,
+      };
+    });
+  };
+
+  const onInputOptionChange = (event) => {
+    const { name, value } = event.target;
+    setInputOptions((p) => {
+      return {
+        ...p,
+        [name]: Number(value) * 1000,
+      };
+    });
+  };
+
+  const requestSerialData = () => {
+    setQuery({ inputData, inputOptions });
   };
 
   return (
@@ -28,11 +67,12 @@ export default function JsonTable() {
           <Input
             addonBefore="PORT"
             defaultValue={inputData.comport}
-            name="port"
+            name="comport"
             onChange={onInputChange}
             style={{ width: "200px" }}
           />
           <Input
+            type="number"
             addonBefore="BaudRate"
             defaultValue={inputData.baudrate}
             name="baudrate"
@@ -40,16 +80,31 @@ export default function JsonTable() {
             style={{ width: "200px" }}
           />
           <Select
+            title="Data Type"
             defaultValue={inputData.datatype}
             name="datatype"
-            onChange={onInputChange}
+            onChange={onSelectChange}
           >
             <Option value="raw">Raw</Option>
             <Option value="json">JSON</Option>
           </Select>
-          <Button type="primary">Request Data</Button>
+          <Input
+            type="number"
+            min="5"
+            addonBefore="Interval"
+            addonAfter="Seconds"
+            defaultValue={inputOptions.pollingInterval}
+            name="pollingInterval"
+            onChange={onInputOptionChange}
+            style={{ width: "200px" }}
+          />
+          <Button type="primary" onClick={requestSerialData}>
+            Request Data
+          </Button>
         </div>
+        {JSON.stringify(inputData)}
       </div>
+      {isFetching && <>Fetching data...</>}
       {error ? (
         <>
           Oh no, there was an error: {JSON.stringify(error)}
