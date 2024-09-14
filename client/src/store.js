@@ -1,24 +1,37 @@
 import { configureStore } from "@reduxjs/toolkit";
-// Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { pokemonApi } from "./services/pokemon";
-import { serialDataApi } from "./services/serialdata";
+import { serialDataApi } from "./services/serialData/serialDataApi";
+import serialDataConfig from "./services/serialData/serialDataConfig";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import { combineReducers } from "redux";
 
-export const store = configureStore({
-  reducer: {
-    // Add the generated reducer as a specific top-level slice
-    [pokemonApi.reducerPath]: pokemonApi.reducer,
-    [serialDataApi.reducerPath]: serialDataApi.reducer,
-  },
-  // Adding the api middleware enables caching, invalidation, polling,
-  // and other useful features of `rtk-query`.
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      pokemonApi.middleware,
-      serialDataApi.middleware
-    ),
+// Combine your reducers
+const rootReducer = combineReducers({
+  serialDataConfig,
+  [serialDataApi.reducerPath]: serialDataApi.reducer,
 });
 
+// Persist configuration
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["serialDataConfig"], // Add the slices you want to persist
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      },
+    }).concat(serialDataApi.middleware),
+});
+
+export const persistor = persistStore(store);
+
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
-// see `setupListeners` docs - takes an optional callback as the 2nd arg for customization
 setupListeners(store.dispatch);

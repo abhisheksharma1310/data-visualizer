@@ -1,30 +1,29 @@
 import { useState } from "react";
 import { JsonToTable } from "react-json-to-table";
-import { Input, Select, Button } from "antd";
-//import { useGetPokemonByNameQuery } from "./services/pokemon";
-import { useGetSerialDataQuery } from "../services/serialdata";
+import { Input, Select, Button, Spin } from "antd";
+import { useGetSerialDataQuery } from "../services/serialData/serialDataApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setConfig } from "../services/serialData/serialDataConfig";
 
 const InputGroup = Input.Group;
 const Option = Select.Option;
 
-export default function JsonTable() {
-  const [inputData, setInputData] = useState({
-    comport: "COM15",
-    baudrate: 9600,
-    datatype: "json",
-  });
+export default function SerialDataPage() {
+  const { query, options } = useSelector((state) => state.serialDataConfig);
 
-  const [inputOptions, setInputOptions] = useState({
-    pollingInterval: 0,
-    refetchOnMountOrArgChange: false,
-    skip: false,
-  });
+  const dispatch = useDispatch();
 
-  const [query, setQuery] = useState({ inputData, inputOptions });
+  console.log(query, options);
+
+  const [inputData, setInputData] = useState(query);
+
+  const [inputOptions, setInputOptions] = useState(options);
+
+  //const [query, setQuery] = useState({ inputData, inputOptions });
 
   const { data, error, isLoading, isFetching } = useGetSerialDataQuery(
-    query.inputData,
-    query.inputOptions
+    query,
+    options
   );
 
   const onInputChange = (event = {}) => {
@@ -57,7 +56,7 @@ export default function JsonTable() {
   };
 
   const requestSerialData = () => {
-    setQuery({ inputData, inputOptions });
+    dispatch(setConfig({ query: inputData, options: inputOptions }));
   };
 
   return (
@@ -102,21 +101,36 @@ export default function JsonTable() {
             Request Data
           </Button>
         </div>
-        {JSON.stringify(inputData)}
       </div>
-      {isFetching && <>Fetching data...</>}
-      {error ? (
+
+      <div
+        style={{
+          textAlign: "center",
+          margin: "50px",
+          padding: "50px",
+          display: `${isLoading || isFetching ? "block" : "none"}`,
+        }}
+      >
+        {isFetching && (
+          <>
+            Fetching data...{" "}
+            <Spin spinning={isFetching} percent={"auto"} delay="500" />
+          </>
+        )}
+        {isLoading && (
+          <>
+            Loading data...{" "}
+            <Spin spinning={isLoading} percent={"auto"} delay="500" />
+          </>
+        )}
+      </div>
+
+      {(data || error) && !isFetching && !isLoading && (
         <>
-          Oh no, there was an error: {JSON.stringify(error)}
-          <JsonToTable json={error} />
+          <JsonToTable json={data || error} />
         </>
-      ) : isLoading ? (
-        <>Loading...</>
-      ) : data ? (
-        <>
-          <JsonToTable json={error} />
-        </>
-      ) : null}
+      )}
+      {/* <Spin spinning={spinning} percent={percent} fullscreen delay="500" /> */}
     </div>
   );
 }
