@@ -41,6 +41,12 @@ const menuItems = [
         label: "Serial Data",
         icon: <DesktopOutlined />,
       },
+      {
+        key: "5",
+        path: "/http-data",
+        label: "HTTP Data",
+        icon: <DesktopOutlined />,
+      },
     ],
   },
 ];
@@ -83,6 +89,7 @@ const MainLayout = ({ children }) => {
     <Layout
       style={{
         minHeight: "100vh",
+        overflow: "hidden",
       }}
     >
       <Sider

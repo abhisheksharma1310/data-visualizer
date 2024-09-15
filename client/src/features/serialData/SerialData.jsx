@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { JsonToTable } from "react-json-to-table";
 import { Input, Select, Button, Spin } from "antd";
-import { useGetSerialDataQuery } from "../services/serialData/serialDataApi";
+import { useGetSerialDataQuery } from "../../services/serialDataApi";
 import { useDispatch, useSelector } from "react-redux";
-import { setConfig } from "../services/serialData/serialDataConfig";
+import { setConfig } from "./serialDataSlice";
+import Scrollable from "../../components/Scrollable";
 
 const InputGroup = Input.Group;
 const Option = Select.Option;
 
 export default function SerialDataPage() {
-  const { query, options } = useSelector((state) => state.serialDataConfig);
+  const { query, options } = useSelector((state) => state.serialData);
 
   const dispatch = useDispatch();
 
@@ -124,12 +125,13 @@ export default function SerialDataPage() {
           </>
         )}
       </div>
-
-      {(data || error) && !isFetching && !isLoading && (
-        <>
-          <JsonToTable json={data || error} />
-        </>
-      )}
+      <Scrollable height="260px">
+        {(data || error) && !isFetching && !isLoading && (
+          <>
+            <JsonToTable json={data || error} />
+          </>
+        )}
+      </Scrollable>
       {/* <Spin spinning={spinning} percent={percent} fullscreen delay="500" /> */}
     </div>
   );

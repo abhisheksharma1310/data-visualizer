@@ -13,8 +13,8 @@ const initialState = {
   },
 };
 
-const serialDataConfigSlice = createSlice({
-  name: "serialDataConfig",
+const serialDataSlice = createSlice({
+  name: "serialData",
   initialState,
   reducers: {
     setConfig: (state, action) => {
@@ -28,6 +28,6 @@ const serialDataConfigSlice = createSlice({
   },
 });
 
-export const { setConfig, resetConfig } = serialDataConfigSlice.actions;
+export const { setConfig, resetConfig } = serialDataSlice.actions;
 
-export default serialDataConfigSlice.reducer;
+export default serialDataSlice.reducer;

@@ -1,22 +1,28 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { serialDataApi } from "./services/serialData/serialDataApi";
-import serialDataConfig from "./services/serialData/serialDataConfig";
-import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { combineReducers } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
+// serial data reducer and api query service
+import { serialDataApi } from "./services/serialDataApi";
+import serialDataReducer from "./features/serialData/serialDataSlice";
+// http data reducer and api query service
+import { httpDataApi } from "./services/httpDataApi";
+import httpDataReducer from "./features/httpData/httpDataSlice";
 
 // Combine your reducers
 const rootReducer = combineReducers({
-  serialDataConfig,
+  serialData: serialDataReducer,
+  httpData: httpDataReducer,
   [serialDataApi.reducerPath]: serialDataApi.reducer,
+  [httpDataApi.reducerPath]: httpDataApi.reducer,
 });
 
 // Persist configuration
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["serialDataConfig"], // Add the slices you want to persist
+  whitelist: ["serialData", "httpData"], // Add the slices you want to persist
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -28,7 +34,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }).concat(serialDataApi.middleware),
+    }).concat(serialDataApi.middleware, httpDataApi.middleware),
 });
 
 export const persistor = persistStore(store);

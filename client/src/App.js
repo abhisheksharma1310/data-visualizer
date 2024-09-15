@@ -2,7 +2,9 @@ import * as React from "react";
 import { ConfigProvider, theme } from "antd";
 import MainLayout from "./components/layout/main-layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SerialData from "./page/SerialData";
+import SerialData from "./features/serialData/SerialData";
+import HttpData from "./features/httpData/HttpData";
+
 export default function App() {
   return (
     <div className="App">
@@ -21,6 +23,7 @@ export default function App() {
           <MainLayout>
             <Routes>
               <Route path="/serial-data" element={<SerialData />} />
+              <Route path="http-data" element={<HttpData />} />
             </Routes>
           </MainLayout>
         </ConfigProvider>
