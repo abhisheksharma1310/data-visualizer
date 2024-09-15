@@ -3,6 +3,8 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { combineReducers } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
+// navDetail reducer
+import navDetailReducer from "./features/navDetail/navDetailSlice";
 // serial data reducer and api query service
 import { serialDataApi } from "./services/serialDataApi";
 import serialDataReducer from "./features/serialData/serialDataSlice";
@@ -12,6 +14,7 @@ import httpDataReducer from "./features/httpData/httpDataSlice";
 
 // Combine your reducers
 const rootReducer = combineReducers({
+  navDetail: navDetailReducer,
   serialData: serialDataReducer,
   httpData: httpDataReducer,
   [serialDataApi.reducerPath]: serialDataApi.reducer,
@@ -22,7 +25,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["serialData", "httpData"], // Add the slices you want to persist
+  whitelist: ["navDetail", "serialData", "httpData"], // Add the slices you want to persist
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

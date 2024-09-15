@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setNavDetail } from "../../features/navDetail/navDetailSlice";
 import {
   DesktopOutlined,
   FileOutlined,
@@ -67,15 +69,24 @@ function createMenuItems(items) {
 createMenuItems(menuItems);
 
 const MainLayout = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [currentHeader, setCurrentHeader] = useState("Home");
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const { key, header, path } = useSelector((state) => state.navDetail);
+
+  if (path !== location.pathname) {
+    navigate(path);
+  }
+
+  const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
 
   const onMenuItemClick = (eventObj) => {
     const { key } = eventObj;
     const path = flatMenuItems[key].path;
-    navigate(path);
-    setCurrentHeader(flatMenuItems[key].label);
+    const header = flatMenuItems[key].label;
+    dispatch(setNavDetail({ key, header, path }));
+    //navigate(path);
   };
 
   const {
@@ -100,7 +111,7 @@ const MainLayout = ({ children }) => {
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
-          defaultSelectedKeys={["0"]}
+          defaultSelectedKeys={[key]}
           mode="inline"
           items={menuItems}
           onClick={onMenuItemClick}
@@ -114,7 +125,7 @@ const MainLayout = ({ children }) => {
             ...primaryStyle,
           }}
         >
-          <h1>{currentHeader}</h1>
+          <h1>{header}</h1>
         </Header>
         <Content
           style={{
