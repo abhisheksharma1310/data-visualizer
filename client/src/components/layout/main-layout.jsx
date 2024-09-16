@@ -49,6 +49,12 @@ const menuItems = [
         label: "HTTP Data",
         icon: <DesktopOutlined />,
       },
+      {
+        key: "6",
+        path: "/mqtt-data",
+        label: "MQTT Data",
+        icon: <DesktopOutlined />,
+      },
     ],
   },
 ];

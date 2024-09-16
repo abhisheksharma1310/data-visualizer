@@ -4,6 +4,7 @@ import MainLayout from "./components/layout/main-layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SerialData from "./features/serialData/SerialData";
 import HttpData from "./features/httpData/HttpData";
+import MqttData from "./features/mqttData/mqttData";
 
 export default function App() {
   return (
@@ -23,7 +24,8 @@ export default function App() {
           <MainLayout>
             <Routes>
               <Route path="/serial-data" element={<SerialData />} />
-              <Route path="http-data" element={<HttpData />} />
+              <Route path="/http-data" element={<HttpData />} />
+              <Route path="/mqtt-data" element={<MqttData />} />
             </Routes>
           </MainLayout>
         </ConfigProvider>
