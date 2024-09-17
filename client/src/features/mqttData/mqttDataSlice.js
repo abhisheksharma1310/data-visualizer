@@ -13,8 +13,8 @@ const initialState = {
   },
   receivedMessage: "",
   sendMessage: "",
-  subscribeToTopic: "",
-  publishToTopic: "",
+  subscribeToTopic: "temp",
+  publishToTopic: "temperature",
 };
 
 const mqttDataSlice = createSlice({

@@ -8,7 +8,18 @@ import {
   setPublishToTopic,
 } from "./mqttDataSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { Input } from "antd";
+import { Button, Input, Space, Select } from "antd";
+
+const pubSubOptions = [
+  {
+    value: "publish",
+    label: "Publish To Topic",
+  },
+  {
+    value: "subscribe",
+    label: "Subscribe To Topic",
+  },
+];
 
 const MqttData = () => {
   const dispatch = useDispatch();
@@ -20,6 +31,15 @@ const MqttData = () => {
     subscribeToTopic,
     publishToTopic,
   } = useSelector((state) => state.mqttData);
+
+  console.log(
+    host,
+    options,
+    receivedMessage,
+    sendMessage,
+    subscribeToTopic,
+    publishToTopic
+  );
 
   const {
     keepalive,
@@ -41,6 +61,14 @@ const MqttData = () => {
 
   const [inputOptions, setInputOptions] = useState({ ...options });
 
+  const [mqttClient, setMqttClient] = useState({
+    client: null,
+    isConnected: false,
+    error: null,
+  });
+
+  const [currentPubSubValue, setCurrentPubSubValue] = useState("subscribe");
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setInput((p) => {
@@ -61,11 +89,23 @@ const MqttData = () => {
     });
   };
 
+  const handlePubSubChange = (event) => {
+    console.log(currentPubSubValue, subscribeToTopic, publishToTopic, event);
+    setCurrentPubSubValue(event);
+  };
+
   useEffect(() => {
     const client = mqtt.connect(host, options);
 
     client.on("connect", () => {
       console.log("Connected");
+      setMqttClient((p) => {
+        return {
+          ...p,
+          client,
+          isConnected: true,
+        };
+      });
       client.subscribe("temp");
     });
 
@@ -80,6 +120,13 @@ const MqttData = () => {
     return () => {
       if (client) {
         client.end();
+        setMqttClient((p) => {
+          return {
+            ...p,
+            client,
+            isConnected: false,
+          };
+        });
       }
     };
   }, []);
@@ -94,7 +141,7 @@ const MqttData = () => {
           value={inputData.host}
           onChange={handleInputChange}
           title="protocol://mqttHost:port"
-          style={{ width: "400px" }}
+          style={{ width: "25%" }}
         />
         <Input
           addonBefore="ClientId"
@@ -102,7 +149,7 @@ const MqttData = () => {
           name="clientId"
           value={inputOptions.clientId}
           onChange={handleInputOptionsChange}
-          style={{ width: "400px" }}
+          style={{ width: "25%" }}
         />
         <Input
           addonBefore="Keepalive"
@@ -111,7 +158,7 @@ const MqttData = () => {
           name="keepalive"
           value={inputOptions.keepalive}
           onChange={handleInputOptionsChange}
-          style={{ width: "300px" }}
+          style={{ width: "25%" }}
         />
         <Input
           addonBefore="ProtocolId"
@@ -119,7 +166,7 @@ const MqttData = () => {
           name="protocolId"
           value={inputOptions.protocolId}
           onChange={handleInputOptionsChange}
-          style={{ width: "300px" }}
+          style={{ width: "25%" }}
         />
       </div>
       <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
@@ -129,7 +176,7 @@ const MqttData = () => {
           name="protocolVersion"
           value={inputOptions.protocolVersion}
           onChange={handleInputOptionsChange}
-          style={{ width: "250px" }}
+          style={{ width: "25%" }}
         />
         <Input
           addonBefore="Clean"
@@ -137,7 +184,7 @@ const MqttData = () => {
           name="clean"
           value={inputOptions.clean}
           onChange={handleInputOptionsChange}
-          style={{ width: "250px" }}
+          style={{ width: "25%" }}
         />
         <Input
           addonBefore="ReconnectPeriod"
@@ -145,7 +192,7 @@ const MqttData = () => {
           name="reconnectPeriod"
           value={inputOptions.reconnectPeriod}
           onChange={handleInputOptionsChange}
-          style={{ width: "250px" }}
+          style={{ width: "25%" }}
         />
         <Input
           addonBefore="ConnectTimeout"
@@ -153,8 +200,40 @@ const MqttData = () => {
           name="connectTimeout"
           value={inputOptions.connectTimeout}
           onChange={handleInputOptionsChange}
-          style={{ width: "250px" }}
+          style={{ width: "25%" }}
         />
+      </div>
+      <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
+        <Button
+          type="primary"
+          disabled={mqttClient.isConnected}
+          loading={!mqttClient.isConnected}
+        >
+          {mqttClient.isConnected
+            ? "Connected to MQTT server"
+            : "Connect to MQTT server"}
+        </Button>
+        {mqttClient.isConnected && (
+          <Button type="primary" danger>
+            Disconnect from MQTT server
+          </Button>
+        )}
+        {mqttClient.isConnected && (
+          <Space.Compact>
+            <Select
+              defaultValue="subscribe"
+              options={pubSubOptions}
+              onChange={handlePubSubChange}
+            />
+            <Input
+              defaultValue={
+                currentPubSubValue === "subscribe"
+                  ? subscribeToTopic
+                  : publishToTopic
+              }
+            />
+          </Space.Compact>
+        )}
       </div>
       <h1>MQTT Client ID: {clientId}</h1>
       <h2>MQTT Message</h2>
