@@ -10,11 +10,13 @@ const initialState = {
     clean: true,
     reconnectPeriod: 1000,
     connectTimeout: 30 * 1000,
+    userName: "",
+    password: "",
   },
   receivedMessage: "",
   sendMessage: "",
-  subscribeToTopic: "temp",
-  publishToTopic: "temperature",
+  subscribeToTopic: "",
+  publishToTopic: "",
 };
 
 const mqttDataSlice = createSlice({

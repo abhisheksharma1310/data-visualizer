@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import mqtt from "mqtt";
 import {
   setMqttDetails,
-  setReceivedMessage,
   setSendMessage,
   setSubscribeToTopic,
   setPublishToTopic,
 } from "./mqttDataSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Input, Space, Select } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import MessageReceived from "./MessageReceived";
 
 const pubSubOptions = [
   {
@@ -32,26 +33,7 @@ const MqttData = () => {
     publishToTopic,
   } = useSelector((state) => state.mqttData);
 
-  console.log(
-    host,
-    options,
-    receivedMessage,
-    sendMessage,
-    subscribeToTopic,
-    publishToTopic
-  );
-
-  const {
-    keepalive,
-    clientId,
-    protocolId,
-    protocolVersion,
-    clean,
-    reconnectPeriod,
-    connectTimeout,
-  } = options;
-
-  const [inputData, setInput] = useState({
+  const [inputData, setInputData] = useState({
     host: host,
     receivedMessage: receivedMessage,
     sendMessage: sendMessage,
@@ -68,10 +50,22 @@ const MqttData = () => {
   });
 
   const [currentPubSubValue, setCurrentPubSubValue] = useState("subscribe");
+  const [subscribedToTopic, setSubscribedToTopic] = useState(false);
+
+  console.log("inputData: ", inputData, inputOptions);
+  console.log(
+    "redux: ",
+    host,
+    options,
+    receivedMessage,
+    sendMessage,
+    subscribeToTopic,
+    publishToTopic
+  );
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setInput((p) => {
+    setInputData((p) => {
       return {
         ...p,
         [name]: value,
@@ -90,46 +84,50 @@ const MqttData = () => {
   };
 
   const handlePubSubChange = (event) => {
-    console.log(currentPubSubValue, subscribeToTopic, publishToTopic, event);
     setCurrentPubSubValue(event);
   };
 
-  useEffect(() => {
-    const client = mqtt.connect(host, options);
+  //mqtt functions
+  const connectClient = () => {
+    dispatch(
+      setMqttDetails({
+        host: inputData.host,
+        options: inputOptions,
+      })
+    );
+    const client = mqtt.connect(inputData.host);
+    setMqttClient({ client, isConnected: true, error: null });
+  };
 
-    client.on("connect", () => {
-      console.log("Connected");
-      setMqttClient((p) => {
-        return {
-          ...p,
-          client,
-          isConnected: true,
-        };
-      });
-      client.subscribe("temp");
-    });
+  const subscribeTopic = () => {
+    if (mqttClient.client && inputData.subscribeToTopic) {
+      dispatch(setSubscribeToTopic(inputData.subscribeToTopic));
+      mqttClient.client.subscribe(inputData.subscribeToTopic);
+      setSubscribedToTopic(true);
+    }
+  };
 
-    client.on("message", (topic, message) => {
-      dispatch(setReceivedMessage(message.toString()));
-    });
+  const publishMessage = () => {
+    if (
+      mqttClient.client &&
+      inputData.publishToTopic &&
+      inputData.sendMessage
+    ) {
+      dispatch(setSendMessage(inputData.sendMessage));
+      dispatch(setPublishToTopic(inputData.publishToTopic));
+      mqttClient.client.publish(
+        inputData.publishToTopic,
+        inputData.sendMessage
+      );
+    }
+  };
 
-    client.on("error", (error) => {
-      console.error("Connection error:", error);
-    });
-
-    return () => {
-      if (client) {
-        client.end();
-        setMqttClient((p) => {
-          return {
-            ...p,
-            client,
-            isConnected: false,
-          };
-        });
-      }
-    };
-  }, []);
+  const disconnectClient = () => {
+    if (mqttClient.client) {
+      mqttClient.client.end();
+      setMqttClient({ client: null, isConnected: false, error: null });
+    }
+  };
 
   return (
     <div>
@@ -204,17 +202,35 @@ const MqttData = () => {
         />
       </div>
       <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
+        <Input
+          addonBefore="User Name"
+          type="text"
+          name="userName"
+          value={inputOptions.userName}
+          onChange={handleInputOptionsChange}
+          style={{ width: "25%" }}
+        />
+        <Input
+          addonBefore="Password"
+          type="password"
+          name="password"
+          value={inputOptions.password}
+          onChange={handleInputOptionsChange}
+          style={{ width: "25%" }}
+        />
+      </div>
+      <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
         <Button
           type="primary"
           disabled={mqttClient.isConnected}
-          loading={!mqttClient.isConnected}
+          onClick={connectClient}
         >
           {mqttClient.isConnected
             ? "Connected to MQTT server"
             : "Connect to MQTT server"}
         </Button>
         {mqttClient.isConnected && (
-          <Button type="primary" danger>
+          <Button type="primary" danger onClick={disconnectClient}>
             Disconnect from MQTT server
           </Button>
         )}
@@ -226,18 +242,69 @@ const MqttData = () => {
               onChange={handlePubSubChange}
             />
             <Input
-              defaultValue={
+              value={
                 currentPubSubValue === "subscribe"
-                  ? subscribeToTopic
-                  : publishToTopic
+                  ? inputData.subscribeToTopic
+                  : inputData.publishToTopic
               }
+              name={
+                currentPubSubValue === "subscribe"
+                  ? "subscribeToTopic"
+                  : "publishToTopic"
+              }
+              onChange={(event) => {
+                handleInputChange(event);
+                setSubscribedToTopic(false);
+              }}
             />
           </Space.Compact>
         )}
       </div>
-      <h1>MQTT Client ID: {clientId}</h1>
-      <h2>MQTT Message</h2>
-      <p>{receivedMessage}</p>
+      {mqttClient.isConnected && (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            gap: "25px",
+          }}
+        >
+          <div>
+            <Button
+              type="primary"
+              disabled={subscribedToTopic}
+              onClick={subscribeTopic}
+            >
+              {subscribedToTopic
+                ? `Subscribed to topic ${subscribeToTopic}`
+                : `Subscribe to topic ${inputData.subscribeToTopic}`}
+            </Button>
+            {subscribedToTopic && (
+              <MessageReceived
+                client={mqttClient.client}
+                topic={inputData.subscribeToTopic}
+              />
+            )}
+          </div>
+
+          <div>
+            <h2>Message to publish</h2>
+            <TextArea name="sendMessage" onChange={handleInputChange}>
+              {inputData.sendMessage}
+            </TextArea>
+            <Button
+              type="primary"
+              onClick={publishMessage}
+              style={{ margin: "10px 0" }}
+            >
+              Publish Message
+            </Button>
+            <h3>Last message published:</h3>
+            <pre>{sendMessage}</pre>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
