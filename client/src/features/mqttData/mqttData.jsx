@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Input, Space, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import MessageReceived from "./MessageReceived";
+import Scrollable from "../../components/Scrollable";
 
 const pubSubOptions = [
   {
@@ -260,51 +261,53 @@ const MqttData = () => {
           </Space.Compact>
         )}
       </div>
-      {mqttClient.isConnected && (
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: "25px",
-          }}
-        >
-          <div>
-            <Button
-              type="primary"
-              disabled={subscribedToTopic}
-              onClick={subscribeTopic}
-            >
-              {subscribedToTopic
-                ? `Subscribed to topic ${subscribeToTopic}`
-                : `Subscribe to topic ${inputData.subscribeToTopic}`}
-            </Button>
-            {subscribedToTopic && (
-              <MessageReceived
-                client={mqttClient.client}
-                topic={inputData.subscribeToTopic}
-              />
-            )}
-          </div>
+      <Scrollable height="400px">
+        {mqttClient.isConnected && (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: "25px",
+            }}
+          >
+            <div style={{ width: "80%" }}>
+              <Button
+                type="primary"
+                disabled={subscribedToTopic}
+                onClick={subscribeTopic}
+              >
+                {subscribedToTopic
+                  ? `Subscribed to topic ${subscribeToTopic}`
+                  : `Subscribe to topic ${inputData.subscribeToTopic}`}
+              </Button>
+              {subscribedToTopic && (
+                <MessageReceived
+                  client={mqttClient.client}
+                  topic={inputData.subscribeToTopic}
+                />
+              )}
+            </div>
 
-          <div>
-            <h2>Message to publish</h2>
-            <TextArea name="sendMessage" onChange={handleInputChange}>
-              {inputData.sendMessage}
-            </TextArea>
-            <Button
-              type="primary"
-              onClick={publishMessage}
-              style={{ margin: "10px 0" }}
-            >
-              Publish Message
-            </Button>
-            <h3>Last message published:</h3>
-            <pre>{sendMessage}</pre>
+            <div>
+              <h2>Message to publish</h2>
+              <TextArea name="sendMessage" onChange={handleInputChange}>
+                {inputData.sendMessage}
+              </TextArea>
+              <Button
+                type="primary"
+                onClick={publishMessage}
+                style={{ margin: "10px 0" }}
+              >
+                Publish Message
+              </Button>
+              <h3>Last message published:</h3>
+              <pre>{sendMessage}</pre>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </Scrollable>
     </div>
   );
 };
