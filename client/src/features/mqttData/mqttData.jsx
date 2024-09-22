@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import mqtt from "mqtt";
 import {
   setMqttDetails,
-  setSendMessage,
   setSubscribeToTopic,
   setPublishToTopic,
+  setSendMessage,
 } from "./mqttDataSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Input, Space, Select } from "antd";
@@ -28,7 +28,7 @@ const MqttData = () => {
   const {
     host,
     options,
-    receivedMessage,
+    receivedMessages,
     sendMessage,
     subscribeToTopic,
     publishToTopic,
@@ -36,7 +36,7 @@ const MqttData = () => {
 
   const [inputData, setInputData] = useState({
     host: host,
-    receivedMessage: receivedMessage,
+    receivedMessages: receivedMessages,
     sendMessage: sendMessage,
     subscribeToTopic: subscribeToTopic,
     publishToTopic: publishToTopic,
@@ -58,7 +58,7 @@ const MqttData = () => {
     "redux: ",
     host,
     options,
-    receivedMessage,
+    receivedMessages,
     sendMessage,
     subscribeToTopic,
     publishToTopic
@@ -263,15 +263,7 @@ const MqttData = () => {
       </div>
       <Scrollable height="400px">
         {mqttClient.isConnected && (
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              gap: "25px",
-            }}
-          >
+          <div className="display-flex g-25">
             <div style={{ width: "80%" }}>
               <Button
                 type="primary"

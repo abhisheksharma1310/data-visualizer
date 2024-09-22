@@ -1,0 +1,16 @@
+.input-div {
+  marginbottom: 16;
+  display: flex;
+  gap: 10px;
+}
+
+.display-flex {
+  width: 100%;
+  display: flex;
+  justifycontent: space-between;
+  alignitems: center;
+}
+
+.g-25 {
+  gap: 25px;
+}

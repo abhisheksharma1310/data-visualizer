@@ -13,7 +13,7 @@ const initialState = {
     userName: "",
     password: "",
   },
-  receivedMessage: "",
+  receivedMessages: [],
   sendMessage: "",
   subscribeToTopic: "",
   publishToTopic: "",
@@ -27,8 +27,16 @@ const mqttDataSlice = createSlice({
       state.host = action.payload.host;
       state.options = action.payload.options;
     },
-    setReceivedMessage: (state, action) => {
-      state.receivedMessage = action.payload;
+    setReceivedMessages: (state, action) => {
+      const date = new Date().toLocaleTimeString();
+      const obj = {
+        time: date,
+        ...action.payload,
+      };
+      state.receivedMessages =
+        state.receivedMessages.length > 0
+          ? [obj, ...state.receivedMessages]
+          : [obj];
     },
     setSendMessage: (state, action) => {
       state.sendMessage = action.payload;
@@ -39,15 +47,19 @@ const mqttDataSlice = createSlice({
     setPublishToTopic: (state, action) => {
       state.publishToTopic = action.payload;
     },
+    setClearMessage: (state, action) => {
+      state.receivedMessages = [];
+    },
   },
 });
 
 export const {
   setMqttDetails,
-  setReceivedMessage,
+  setReceivedMessages,
   setSendMessage,
   setSubscribeToTopic,
   setPublishToTopic,
+  setClearMessage,
 } = mqttDataSlice.actions;
 
 export default mqttDataSlice.reducer;

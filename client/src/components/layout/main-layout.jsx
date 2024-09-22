@@ -55,6 +55,12 @@ const menuItems = [
         label: "MQTT Data",
         icon: <DesktopOutlined />,
       },
+      {
+        key: "7",
+        path: "/webSocket-data",
+        label: "WebSocket Data",
+        icon: <DesktopOutlined />,
+      },
     ],
   },
 ];

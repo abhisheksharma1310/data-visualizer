@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SerialData from "./features/serialData/SerialData";
 import HttpData from "./features/httpData/HttpData";
 import MqttData from "./features/mqttData/mqttData";
+import WebSocketData from "./features/webSocket/WebSocketData";
+
+import "./App.css";
 
 export default function App() {
   return (
@@ -26,6 +29,7 @@ export default function App() {
               <Route path="/serial-data" element={<SerialData />} />
               <Route path="/http-data" element={<HttpData />} />
               <Route path="/mqtt-data" element={<MqttData />} />
+              <Route path="/webSocket-data" element={<WebSocketData />} />
             </Routes>
           </MainLayout>
         </ConfigProvider>

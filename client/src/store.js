@@ -13,7 +13,8 @@ import { httpDataApi } from "./services/httpDataApi";
 import httpDataReducer from "./features/httpData/httpDataSlice";
 // mqtt data reducer
 import mqttReducer from "./features/mqttData/mqttDataSlice";
-import structureDataReducer from "./features/mqttData/structureDataSlice";
+// webSocket data reducer
+import webSocketReducer from "./features/webSocket/webSocketSlice";
 
 // Combine your reducers
 const rootReducer = combineReducers({
@@ -21,7 +22,7 @@ const rootReducer = combineReducers({
   serialData: serialDataReducer,
   httpData: httpDataReducer,
   mqttData: mqttReducer,
-  structureData: structureDataReducer,
+  webSocket: webSocketReducer,
   [serialDataApi.reducerPath]: serialDataApi.reducer,
   [httpDataApi.reducerPath]: httpDataApi.reducer,
 });
@@ -30,13 +31,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [
-    "navDetail",
-    "serialData",
-    "httpData",
-    "mqttData",
-    "structureData",
-  ], // Add the slices you want to persist
+  whitelist: ["navDetail", "serialData", "httpData", "mqttData"], // Add the slices you want to persist
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
