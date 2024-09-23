@@ -6,8 +6,6 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 const { Header, Content, Footer, Sider } = Layout;
@@ -21,42 +19,36 @@ const menuItems = [
   },
   {
     key: "1",
-    path: "/dashboard",
-    label: "Dashboard",
-    icon: <DesktopOutlined />,
-  },
-  {
-    key: "2",
     path: "/data-source",
     label: "Data Source",
     icon: <FileOutlined />,
   },
   {
-    key: "3",
+    key: "2",
     path: "/test-data-source",
     label: "Test Data Source",
     icon: <DesktopOutlined />,
     children: [
       {
-        key: "4",
+        key: "3",
         path: "/serial-data",
         label: "Serial Data",
         icon: <DesktopOutlined />,
       },
       {
-        key: "5",
+        key: "4",
         path: "/http-data",
         label: "HTTP Data",
         icon: <DesktopOutlined />,
       },
       {
-        key: "6",
+        key: "5",
         path: "/mqtt-data",
         label: "MQTT Data",
         icon: <DesktopOutlined />,
       },
       {
-        key: "7",
+        key: "6",
         path: "/webSocket-data",
         label: "WebSocket Data",
         icon: <DesktopOutlined />,

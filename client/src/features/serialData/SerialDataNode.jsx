@@ -9,7 +9,7 @@ import Scrollable from "../../components/Scrollable";
 const InputGroup = Input.Group;
 const Option = Select.Option;
 
-export default function SerialDataPage() {
+export default function SerialDataNode() {
   const { query, options } = useSelector((state) => state.serialData);
 
   const dispatch = useDispatch();
@@ -125,7 +125,7 @@ export default function SerialDataPage() {
           </>
         )}
       </div>
-      <Scrollable height="260px">
+      <Scrollable height="310px">
         {(data || error) && !isFetching && !isLoading && (
           <>
             <JsonToTable json={data || error} />

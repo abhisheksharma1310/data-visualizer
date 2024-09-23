@@ -2,7 +2,7 @@ import * as React from "react";
 import { ConfigProvider, theme } from "antd";
 import MainLayout from "./components/layout/main-layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SerialData from "./features/serialData/SerialData";
+import SerialDataWraper from "./features/serialData/SerialDataWraper";
 import HttpData from "./features/httpData/HttpData";
 import MqttData from "./features/mqttData/mqttData";
 import WebSocketData from "./features/webSocket/WebSocketData";
@@ -26,7 +26,7 @@ export default function App() {
         >
           <MainLayout>
             <Routes>
-              <Route path="/serial-data" element={<SerialData />} />
+              <Route path="/serial-data" element={<SerialDataWraper />} />
               <Route path="/http-data" element={<HttpData />} />
               <Route path="/mqtt-data" element={<MqttData />} />
               <Route path="/webSocket-data" element={<WebSocketData />} />
