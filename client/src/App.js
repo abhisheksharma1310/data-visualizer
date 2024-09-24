@@ -27,7 +27,8 @@ export default function App() {
         >
           <MainLayout>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="*" element={<Home />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/serial-data" element={<SerialDataWraper />} />
               <Route path="/http-data" element={<HttpData />} />
               <Route path="/mqtt-data" element={<MqttData />} />

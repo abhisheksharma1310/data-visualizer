@@ -16,7 +16,7 @@ const { Header, Content, Footer, Sider } = Layout;
 const menuItems = [
   {
     key: "0",
-    path: "/",
+    path: "/home",
     label: "Home",
     icon: <HomeOutlined />,
   },
@@ -149,7 +149,14 @@ const MainLayout = ({ children }) => {
             ...primaryStyle,
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          Data Visualizer ©{new Date().getFullYear()} Created by{" "}
+          <a
+            href="https://abhisheksharma1310.github.io"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Abhishek Sharma
+          </a>
         </Footer>
       </Layout>
     </Layout>
