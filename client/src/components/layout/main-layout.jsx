@@ -3,11 +3,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setNavDetail } from "../../features/navDetail/navDetailSlice";
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
+  HomeOutlined,
+  ApiOutlined,
+  UsbOutlined,
+  GlobalOutlined,
+  RobotOutlined,
+  CloudSyncOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme } from "antd";
 const { Header, Content, Footer, Sider } = Layout;
 
 const menuItems = [
@@ -15,43 +18,37 @@ const menuItems = [
     key: "0",
     path: "/",
     label: "Home",
-    icon: <PieChartOutlined />,
+    icon: <HomeOutlined />,
   },
   {
     key: "1",
     path: "/data-source",
     label: "Data Source",
-    icon: <FileOutlined />,
-  },
-  {
-    key: "2",
-    path: "/test-data-source",
-    label: "Test Data Source",
-    icon: <DesktopOutlined />,
+    icon: <ApiOutlined />,
     children: [
       {
-        key: "3",
+        key: "2",
         path: "/serial-data",
         label: "Serial Data",
-        icon: <DesktopOutlined />,
+        icon: <UsbOutlined />,
+      },
+      {
+        key: "3",
+        path: "/http-data",
+        label: "HTTP Data",
+        icon: <GlobalOutlined />,
       },
       {
         key: "4",
-        path: "/http-data",
-        label: "HTTP Data",
-        icon: <DesktopOutlined />,
+        path: "/mqtt-data",
+        label: "MQTT Data",
+        icon: <RobotOutlined />,
       },
       {
         key: "5",
-        path: "/mqtt-data",
-        label: "MQTT Data",
-        icon: <DesktopOutlined />,
-      },
-      {
-        key: "6",
         path: "/webSocket-data",
         label: "WebSocket Data",
-        icon: <DesktopOutlined />,
+        icon: <CloudSyncOutlined />,
       },
     ],
   },
@@ -94,7 +91,7 @@ const MainLayout = ({ children }) => {
   };
 
   const {
-    token: { colorBgContainer, borderRadiusLG, colorPrimaryText },
+    token: { colorPrimaryText },
   } = theme.useToken();
   const primaryStyle = {
     background: "#001529",

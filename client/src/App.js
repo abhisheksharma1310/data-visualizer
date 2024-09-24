@@ -8,6 +8,7 @@ import MqttData from "./features/mqttData/mqttData";
 import WebSocketData from "./features/webSocket/WebSocketData";
 
 import "./App.css";
+import Home from "./components/Home";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         >
           <MainLayout>
             <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="/serial-data" element={<SerialDataWraper />} />
               <Route path="/http-data" element={<HttpData />} />
               <Route path="/mqtt-data" element={<MqttData />} />
