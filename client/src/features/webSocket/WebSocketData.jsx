@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setServerAddress,
@@ -7,7 +7,7 @@ import {
   setConnectionStatus,
   clearMessages,
 } from "./webSocketSlice";
-import { Button, Input } from "antd";
+import { Button, Input, Spin } from "antd";
 import Scrollable from "../../components/Scrollable";
 import TextArea from "antd/es/input/TextArea";
 import { JsonToTable } from "react-json-to-table";
@@ -18,15 +18,20 @@ const WebSocketData = () => {
     useSelector((state) => state.webSocket);
   const socketRef = useRef(null);
 
+  const [isConnecting, setIsConnecting] = useState(false);
+
   const connectWebSocket = () => {
     if (socketRef.current) {
       socketRef.current.close();
     }
 
+    setIsConnecting(true);
+
     socketRef.current = new WebSocket(serverAddress);
 
     socketRef.current.onopen = () => {
       dispatch(setConnectionStatus("Connected"));
+      setIsConnecting(false);
     };
 
     socketRef.current.onmessage = (event) => {
@@ -94,44 +99,48 @@ const WebSocketData = () => {
       </div>
       <div>
         <h3>Connection Status: {connectionStatus}</h3>
+        {connectionStatus === "Disconnected" && isConnecting && (
+          <>
+            Connecting...{" "}
+            <Spin spinning={isConnecting} percent={"auto"} delay="500" />
+          </>
+        )}
       </div>
       {connectionStatus === "Connected" && (
-        <Scrollable height="300px">
-          <div className="display-flex g-25">
-            <div style={{ width: "80%" }}>
-              <div className="display-flex">
-                <h3>Received Messages:</h3>
-                {receivedMessages[0]?.time && (
-                  <Button
-                    type="primary"
-                    danger
-                    onClick={() => dispatch(clearMessages())}
-                  >
-                    Clear Message
-                  </Button>
-                )}
-              </div>
-              <div style={{ margin: "20px 0" }}>
-                <JsonToTable json={receivedMessages} />
-              </div>
+        <div className="display-flex g-25">
+          <div className="max-width">
+            <div className="display-flex">
+              <h3>Received Messages:</h3>
+              {receivedMessages[0]?.time && (
+                <Button
+                  type="primary"
+                  danger
+                  onClick={() => dispatch(clearMessages())}
+                >
+                  Clear Message
+                </Button>
+              )}
             </div>
-            <div>
-              <h3>Send Message</h3>
-              <TextArea
-                value={message}
-                onChange={(e) => dispatch(setMessage(e.target.value))}
-                placeholder="Enter message"
-              ></TextArea>
-              <Button
-                type="primary"
-                onClick={sendMessage}
-                style={{ margin: "10px 0" }}
-              >
-                Send
-              </Button>
-            </div>
+            <Scrollable height="360px">
+              <JsonToTable json={receivedMessages} />
+            </Scrollable>
           </div>
-        </Scrollable>
+          <div className="input-item">
+            <h3>Send Message</h3>
+            <TextArea
+              value={message}
+              onChange={(e) => dispatch(setMessage(e.target.value))}
+              placeholder="Enter message"
+            ></TextArea>
+            <Button
+              type="primary"
+              onClick={sendMessage}
+              style={{ margin: "10px 0" }}
+            >
+              Send
+            </Button>
+          </div>
+        </div>
       )}
     </div>
   );

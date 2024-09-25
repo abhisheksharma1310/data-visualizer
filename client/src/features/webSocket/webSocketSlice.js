@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  serverAddress: "",
+  serverAddress: "wss://echo.websocket.org",
   message: "",
   receivedMessages: [],
   connectionStatus: "Disconnected",

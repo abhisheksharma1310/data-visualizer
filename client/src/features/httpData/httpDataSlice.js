@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  baseUrl: "http://localhost:5000/serial/data",
+  baseUrl: "https://jsonplaceholder.typicode.com/posts",
 };
 
 const httpDataSlice = createSlice({

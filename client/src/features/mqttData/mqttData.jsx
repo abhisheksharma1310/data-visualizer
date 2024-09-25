@@ -121,94 +121,98 @@ const MqttData = () => {
 
   return (
     <div>
-      <div className="input-div">
-        <Input
-          addonBefore="Host"
-          type="text"
-          name="host"
-          value={inputData.host}
-          onChange={handleInputChange}
-          title="protocol://mqttHost:port"
-          className="input-item"
-        />
-        <Input
-          addonBefore="ClientId"
-          type="text"
-          name="clientId"
-          value={inputOptions.clientId}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-        <Input
-          addonBefore="Keepalive"
-          addonAfter="seconds"
-          type="number"
-          name="keepalive"
-          value={inputOptions.keepalive}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-        <Input
-          addonBefore="ProtocolId"
-          type="text"
-          name="protocolId"
-          value={inputOptions.protocolId}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-      </div>
-      <div className="input-div">
-        <Input
-          addonBefore="ProtocolVersion"
-          type="number"
-          name="protocolVersion"
-          value={inputOptions.protocolVersion}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-        <Input
-          addonBefore="Clean"
-          type="boolean"
-          name="clean"
-          value={inputOptions.clean}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-        <Input
-          addonBefore="ReconnectPeriod"
-          type="number"
-          name="reconnectPeriod"
-          value={inputOptions.reconnectPeriod}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-        <Input
-          addonBefore="ConnectTimeout"
-          type="number"
-          name="connectTimeout"
-          value={inputOptions.connectTimeout}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-      </div>
-      <div className="input-div">
-        <Input
-          addonBefore="User Name"
-          type="text"
-          name="userName"
-          value={inputOptions.userName}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-        <Input
-          addonBefore="Password"
-          type="password"
-          name="password"
-          value={inputOptions.password}
-          onChange={handleInputOptionsChange}
-          className="input-item"
-        />
-      </div>
+      {!mqttClient.isConnected && (
+        <>
+          <div className="input-div">
+            <Input
+              addonBefore="Host"
+              type="text"
+              name="host"
+              value={inputData.host}
+              onChange={handleInputChange}
+              title="protocol://mqttHost:port"
+              className="input-item"
+            />
+            <Input
+              addonBefore="ClientId"
+              type="text"
+              name="clientId"
+              value={inputOptions.clientId}
+              onChange={handleInputOptionsChange}
+              className="input-item"
+            />
+            <Input
+              addonBefore="Keepalive"
+              addonAfter="seconds"
+              type="number"
+              name="keepalive"
+              value={inputOptions.keepalive}
+              onChange={handleInputOptionsChange}
+              className="input-item"
+            />
+            <Input
+              addonBefore="ProtocolId"
+              type="text"
+              name="protocolId"
+              value={inputOptions.protocolId}
+              onChange={handleInputOptionsChange}
+              className="input-item"
+            />
+          </div>
+          <div className="input-div">
+            <Input
+              addonBefore="ProtocolVersion"
+              type="number"
+              name="protocolVersion"
+              value={inputOptions.protocolVersion}
+              onChange={handleInputOptionsChange}
+              className="input-item"
+            />
+            <Input
+              addonBefore="Clean"
+              type="boolean"
+              name="clean"
+              value={inputOptions.clean}
+              onChange={handleInputOptionsChange}
+              className="input-item"
+            />
+            <Input
+              addonBefore="ReconnectPeriod"
+              type="number"
+              name="reconnectPeriod"
+              value={inputOptions.reconnectPeriod}
+              onChange={handleInputOptionsChange}
+              className="input-item"
+            />
+            <Input
+              addonBefore="ConnectTimeout"
+              type="number"
+              name="connectTimeout"
+              value={inputOptions.connectTimeout}
+              onChange={handleInputOptionsChange}
+              className="input-item"
+            />
+          </div>
+          <div className="input-div">
+            <Input
+              addonBefore="User Name"
+              type="text"
+              name="userName"
+              value={inputOptions.userName}
+              onChange={handleInputOptionsChange}
+              className="input-item max-width-20"
+            />
+            <Input
+              addonBefore="Password"
+              type="password"
+              name="password"
+              value={inputOptions.password}
+              onChange={handleInputOptionsChange}
+              className="input-item max-width-20"
+            />
+          </div>
+        </>
+      )}
       <div className="input-div">
         <Button
           type="primary"
@@ -250,10 +254,10 @@ const MqttData = () => {
           </Space.Compact>
         )}
       </div>
-      <Scrollable height="400px">
+      <div>
         {mqttClient.isConnected && (
           <div className="display-flex g-25">
-            <div style={{ width: "80%" }}>
+            <div className="max-width">
               <Button
                 type="primary"
                 disabled={subscribedToTopic}
@@ -271,7 +275,7 @@ const MqttData = () => {
               )}
             </div>
 
-            <div>
+            <div className="input-item">
               <h2>Message to publish</h2>
               <TextArea name="sendMessage" onChange={handleInputChange}>
                 {inputData.sendMessage}
@@ -284,11 +288,13 @@ const MqttData = () => {
                 Publish Message
               </Button>
               <h3>Last message published:</h3>
-              <pre>{sendMessage}</pre>
+              <Scrollable height="500px">
+                <p style={{ whiteSpace: "wrap" }}>{sendMessage}</p>
+              </Scrollable>
             </div>
           </div>
         )}
-      </Scrollable>
+      </div>
     </div>
   );
 };

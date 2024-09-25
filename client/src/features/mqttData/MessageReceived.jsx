@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setReceivedMessages, setClearMessage } from "./mqttDataSlice";
 import { JsonToTable } from "react-json-to-table";
 import { Button } from "antd";
+import Scrollable from "../../components/Scrollable";
 
 const MessageReceived = ({ client, topic }) => {
   const dispatch = useDispatch();
@@ -60,7 +61,9 @@ const MessageReceived = ({ client, topic }) => {
           </Button>
         )}
       </div>
-      <JsonToTable json={receivedMessages} />
+      <Scrollable height="360px">
+        <JsonToTable json={receivedMessages} />
+      </Scrollable>
     </div>
   );
 };
