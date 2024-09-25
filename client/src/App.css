@@ -1,16 +1,41 @@
 .input-div {
-  marginbottom: 16;
+  margin-bottom: 16px;
   display: flex;
   gap: 10px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.input-item {
+  flex: 1 1 20%;
 }
 
 .display-flex {
   width: 100%;
   display: flex;
-  justifycontent: space-between;
-  alignitems: center;
+  justify-content: space-between;
+  align-tems: center;
 }
 
 .g-25 {
   gap: 25px;
+}
+
+.custom-sider-trigger,
+.ant-layout-sider-zero-width-trigger .ant-layout-sider-zero-width-trigger-left {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  color: red !important;
+  z-index: 1; /* Ensure it appears above other elements */
+}
+
+@media (max-width: 640px) {
+  .input-item {
+    flex: 1 1 100%;
+  }
+  .display-flex {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }

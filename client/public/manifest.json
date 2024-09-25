@@ -26,8 +26,8 @@
       "purpose": "maskable"
     }
   ],
-  "id": "/",
-  "start_url": "/",
+  "id": "/https://abhisheksharma1310.github.io/data-visualizer/",
+  "start_url": "https://abhisheksharma1310.github.io/data-visualizer/home",
   "display": "fullscreen",
   "theme_color": "#00b96b",
   "background_color": "#ffffff",

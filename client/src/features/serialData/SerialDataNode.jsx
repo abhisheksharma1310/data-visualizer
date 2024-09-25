@@ -63,13 +63,13 @@ export default function SerialDataNode() {
   return (
     <div className="serial-data-test">
       <div className="serial-params-input">
-        <div style={{ marginBottom: 16, display: "flex", gap: "5px" }}>
+        <div className="input-div">
           <Input
             addonBefore="PORT"
             defaultValue={inputData.comport}
             name="comport"
             onChange={onInputChange}
-            style={{ width: "200px" }}
+            className="input-item"
           />
           <Input
             type="number"
@@ -77,13 +77,14 @@ export default function SerialDataNode() {
             defaultValue={inputData.baudrate}
             name="baudrate"
             onChange={onInputChange}
-            style={{ width: "200px" }}
+            className="input-item"
           />
           <Select
             title="Data Type"
             defaultValue={inputData.datatype}
             name="datatype"
             onChange={onSelectChange}
+            className="input-item"
           >
             <Option value="raw">Raw</Option>
             <Option value="json">JSON</Option>
@@ -96,7 +97,7 @@ export default function SerialDataNode() {
             defaultValue={inputOptions.pollingInterval}
             name="pollingInterval"
             onChange={onInputOptionChange}
-            style={{ width: "200px" }}
+            className="input-item"
           />
           <Button type="primary" onClick={requestSerialData}>
             Request Data
@@ -136,35 +137,3 @@ export default function SerialDataNode() {
     </div>
   );
 }
-
-//import React, { useState } from "react";
-// import { useUpdatePostMutation } from "../services/serialdata";
-
-// const JsonTable = () => {
-//   const [updatePost, { data, error, isLoading }] = useUpdatePostMutation();
-//   const [inputData, setInputData] = useState({
-//     comport: "COM15",
-//     baudrate: 9600,
-//     datatype: "json",
-//   });
-
-//   const handlePostRequest = async () => {
-//     try {
-//       await updatePost(inputData).unwrap();
-//     } catch (err) {
-//       console.error("Failed to update post:", err);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <button onClick={handlePostRequest} disabled={isLoading}>
-//         {isLoading ? "Loading..." : "Send POST Request"}
-//       </button>
-//       {data && <div>Response: {JSON.stringify(data)}</div>}
-//       {error && <div>Error: {JSON.stringify(error)}</div>}
-//     </div>
-//   );
-// };
-
-// export default JsonTable;

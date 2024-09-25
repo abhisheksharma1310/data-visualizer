@@ -76,6 +76,7 @@ const WebSocketData = () => {
           placeholder="wss://echo.websocket.org"
           onChange={(e) => dispatch(setServerAddress(e.target.value))}
           disabled={connectionStatus === "Connected" ? true : false}
+          className="input-item"
         />
         <Button
           type="primary"
@@ -98,14 +99,7 @@ const WebSocketData = () => {
         <Scrollable height="300px">
           <div className="display-flex g-25">
             <div style={{ width: "80%" }}>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
+              <div className="display-flex">
                 <h3>Received Messages:</h3>
                 {receivedMessages[0]?.time && (
                   <Button
@@ -117,7 +111,9 @@ const WebSocketData = () => {
                   </Button>
                 )}
               </div>
-              <JsonToTable json={receivedMessages} />
+              <div style={{ margin: "20px 0" }}>
+                <JsonToTable json={receivedMessages} />
+              </div>
             </div>
             <div>
               <h3>Send Message</h3>

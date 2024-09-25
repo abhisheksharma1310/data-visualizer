@@ -121,7 +121,7 @@ const MqttData = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
+      <div className="input-div">
         <Input
           addonBefore="Host"
           type="text"
@@ -129,7 +129,7 @@ const MqttData = () => {
           value={inputData.host}
           onChange={handleInputChange}
           title="protocol://mqttHost:port"
-          style={{ width: "25%" }}
+          className="input-item"
         />
         <Input
           addonBefore="ClientId"
@@ -137,7 +137,7 @@ const MqttData = () => {
           name="clientId"
           value={inputOptions.clientId}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
         <Input
           addonBefore="Keepalive"
@@ -146,7 +146,7 @@ const MqttData = () => {
           name="keepalive"
           value={inputOptions.keepalive}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
         <Input
           addonBefore="ProtocolId"
@@ -154,17 +154,17 @@ const MqttData = () => {
           name="protocolId"
           value={inputOptions.protocolId}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
       </div>
-      <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
+      <div className="input-div">
         <Input
           addonBefore="ProtocolVersion"
           type="number"
           name="protocolVersion"
           value={inputOptions.protocolVersion}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
         <Input
           addonBefore="Clean"
@@ -172,7 +172,7 @@ const MqttData = () => {
           name="clean"
           value={inputOptions.clean}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
         <Input
           addonBefore="ReconnectPeriod"
@@ -180,7 +180,7 @@ const MqttData = () => {
           name="reconnectPeriod"
           value={inputOptions.reconnectPeriod}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
         <Input
           addonBefore="ConnectTimeout"
@@ -188,17 +188,17 @@ const MqttData = () => {
           name="connectTimeout"
           value={inputOptions.connectTimeout}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
       </div>
-      <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
+      <div className="input-div">
         <Input
           addonBefore="User Name"
           type="text"
           name="userName"
           value={inputOptions.userName}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
         <Input
           addonBefore="Password"
@@ -206,10 +206,10 @@ const MqttData = () => {
           name="password"
           value={inputOptions.password}
           onChange={handleInputOptionsChange}
-          style={{ width: "25%" }}
+          className="input-item"
         />
       </div>
-      <div style={{ marginBottom: 16, display: "flex", gap: "10px" }}>
+      <div className="input-div">
         <Button
           type="primary"
           disabled={mqttClient.isConnected}

@@ -106,9 +106,15 @@ const MainLayout = ({ children }) => {
       }}
     >
       <Sider
+        breakpoint="md"
+        collapsedWidth="0"
+        onBreakpoint={(broken) => {
+          setCollapsed(broken);
+        }}
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
+        zeroWidthTriggerStyle={{ top: "0px" }}
       >
         <div className="demo-logo-vertical" />
         <Menu
@@ -125,6 +131,8 @@ const MainLayout = ({ children }) => {
             textAlign: "center",
             height: "80px",
             ...primaryStyle,
+            margin: 0,
+            padding: 0,
           }}
         >
           <h1>{header}</h1>

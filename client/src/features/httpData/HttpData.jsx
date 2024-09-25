@@ -21,12 +21,13 @@ const HttpData = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: 16, display: "flex", gap: "5px" }}>
+      <div className="input-div">
         <Input
           addonBefore="URL"
           type="text"
           value={inputData}
           onChange={(e) => setInputData(e.target.value)}
+          className="input-item"
         />
         <Button type="primary" onClick={handleChangeBaseUrl}>
           Fetch Data

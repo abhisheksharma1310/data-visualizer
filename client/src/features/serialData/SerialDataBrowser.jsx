@@ -93,16 +93,17 @@ const SerialDataBrowser = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: 16, display: "flex", gap: "5px" }}>
+      <div className="input-div">
         <Button type="primary" onClick={selectPort}>
           {!!port?.getInfo()?.usbProductId ? "Port Selected" : "Select Port"}
         </Button>
         <Input
+          addonBefore="Baudrate"
           type="number"
           value={baudRate}
           onChange={(e) => setBaudRate(e.target.value)}
           placeholder="Enter Baud Rate"
-          style={{ width: "100px" }}
+          style={{ width: "200px" }}
         />
         <Button onClick={() => (isPortConnected ? closePort() : openPort())}>
           {isPortConnected ? "Close Port" : "Open Port"}
