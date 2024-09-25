@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ConfigProvider, theme } from "antd";
 import MainLayout from "./components/layout/main-layout";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import SerialDataWraper from "./features/serialData/SerialDataWraper";
 import HttpData from "./features/httpData/HttpData";
 import MqttData from "./features/mqttData/mqttData";
@@ -27,12 +27,12 @@ export default function App() {
         >
           <MainLayout>
             <Routes>
-              <Route path="*" element={<Home />} />
+              <Route exact path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
               <Route path="/serial-data" element={<SerialDataWraper />} />
               <Route path="/http-data" element={<HttpData />} />
               <Route path="/mqtt-data" element={<MqttData />} />
-              <Route path="/webSocket-data" element={<WebSocketData />} />
+              <Route path="/websocket-data" element={<WebSocketData />} />
             </Routes>
           </MainLayout>
         </ConfigProvider>

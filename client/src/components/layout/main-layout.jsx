@@ -11,6 +11,7 @@ import {
   CloudSyncOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
+import Scrollable from "../Scrollable";
 const { Header, Content, Footer, Sider } = Layout;
 
 const menuItems = [
@@ -46,7 +47,7 @@ const menuItems = [
       },
       {
         key: "5",
-        path: "/webSocket-data",
+        path: "/websocket-data",
         label: "WebSocket Data",
         icon: <CloudSyncOutlined />,
       },
@@ -130,16 +131,17 @@ const MainLayout = ({ children }) => {
         </Header>
         <Content
           style={{
-            margin: "16px",
+            margin: "0",
           }}
         >
           <div
             style={{
-              padding: 24,
+              padding: "25px",
+              minWidth: "100%",
               minHeight: "100%",
             }}
           >
-            {children}
+            <Scrollable height="200px">{children}</Scrollable>
           </div>
         </Content>
         <Footer

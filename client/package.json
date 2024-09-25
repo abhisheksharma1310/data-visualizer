@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://abhisheksharma1310.github.io/data-visualizer/",
+  "homepage": "https://abhisheksharma1310.github.io/data-visualizer",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.17.0",

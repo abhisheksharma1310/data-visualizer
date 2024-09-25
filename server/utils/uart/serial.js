@@ -26,7 +26,6 @@ export const serialData = (
   parser.on("data", (data) => {
     const dataObject = dataType == "raw" ? data : convertToJson(data);
     res.status(200).json(dataObject);
-    console.log("S: ", dataObject);
     port.close();
   });
 };
@@ -34,11 +33,9 @@ export const serialData = (
 const convertToJson = (data) => {
   try {
     const jsonData = JSON.parse(data);
-    //console.log("json: ", jsonData);
     return jsonData;
   } catch (error) {
     const msg = { error: error?.message };
-    console.log(msg);
     res.status(404).json(msg);
   }
 };

@@ -30,6 +30,10 @@ const Home = () => {
             <strong>Cross-Platform Compatibility:</strong> Serial Port Works
             seamlessly on both Node.js and browser environments.
           </li>
+          <li className="feature-item">
+            <strong>PWA Support:</strong> Install web as progressive web app on
+            laptop or mobile and work without internet.
+          </li>
         </ul>
         <p className="conclusion">
           Explore the power of real-time data access and visualization with our

@@ -17,11 +17,6 @@ const SerialDataBrowser = () => {
       const selectedPort = await navigator.serial.requestPort();
       setPort(selectedPort);
       const info = selectedPort.getInfo();
-      console.log(
-        `Port Name: ${info.usbVendorId}:${info.usbProductId} - ${JSON.stringify(
-          info
-        )}`
-      );
     } catch (error) {
       console.error("Error selecting port:", error);
       setError("Error selecting port:", error);

@@ -19,7 +19,6 @@ const SerialDataWraper = () => {
 
   const handleChange = (value) => {
     setSerialOption(value);
-    console.log(`selected ${value}`);
   };
 
   return (

@@ -8,8 +8,6 @@ const MessageReceived = ({ client, topic }) => {
   const dispatch = useDispatch();
   const { receivedMessages } = useSelector((state) => state.mqttData);
 
-  console.log(receivedMessages);
-
   const clearMessage = () => {
     dispatch(setClearMessage());
   };
@@ -17,7 +15,6 @@ const MessageReceived = ({ client, topic }) => {
   useEffect(() => {
     if (client) {
       const handleMessage = (topic, message) => {
-        console.log(topic, message);
         dispatch(
           setReceivedMessages({
             topic,

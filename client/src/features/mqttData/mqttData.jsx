@@ -53,17 +53,6 @@ const MqttData = () => {
   const [currentPubSubValue, setCurrentPubSubValue] = useState("subscribe");
   const [subscribedToTopic, setSubscribedToTopic] = useState(false);
 
-  console.log("inputData: ", inputData, inputOptions);
-  console.log(
-    "redux: ",
-    host,
-    options,
-    receivedMessages,
-    sendMessage,
-    subscribeToTopic,
-    publishToTopic
-  );
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setInputData((p) => {
