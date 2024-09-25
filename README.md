@@ -1,15 +1,24 @@
 # Data Visualization Web App
 
+<div width="100%">
+   <image src="./client/public/mockup.png" />
+</div>
+
 ## Overview
 
 This web application allows users to access and display data from various protocols including Serial Port, HTTP, MQTT, and WebSocket. The app is built using React and Node.js, providing support for both Node.js and browser environments.
 
 ## Features
 
+<div width="100%">
+   <image src="./client/public/screenshot.jpeg" />
+</div>
+
 - **Multi-Protocol Support:** Connect to Serial Port, HTTP, MQTT, and WebSocket.
 - **Real-Time Data Display:** Data is shown in a tabular format for easy viewing.
 - **User Input:** Users can enter the required details for each protocol.
 - **Cross-Platform:** Serial Port compatible with both Node.js and browser environments.
+- **PWA Support:** Install web as progressive web app on laptop or mobile and work without internet.
 
 ## Installation
 
