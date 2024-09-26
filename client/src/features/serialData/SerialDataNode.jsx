@@ -14,8 +14,6 @@ export default function SerialDataNode() {
 
   const dispatch = useDispatch();
 
-  console.log(query, options);
-
   const [inputData, setInputData] = useState(query);
 
   const [inputOptions, setInputOptions] = useState(options);

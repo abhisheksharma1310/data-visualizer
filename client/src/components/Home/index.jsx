@@ -31,8 +31,8 @@ const Home = () => {
             seamlessly on both Node.js and browser environments.
           </li>
           <li className="feature-item">
-            <strong>PWA Support:</strong> Install web as progressive web app on
-            laptop or mobile and work without internet.
+            <strong>PWA Support:</strong> Install web app as progressive web app
+            on laptop or mobile and work without internet for local development.
           </li>
         </ul>
         <p className="conclusion">

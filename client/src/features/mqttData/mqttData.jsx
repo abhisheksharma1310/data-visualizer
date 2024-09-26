@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import mqtt from "mqtt";
 import {
   setMqttDetails,
@@ -7,7 +7,7 @@ import {
   setSendMessage,
 } from "./mqttDataSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Input, Space, Select } from "antd";
+import { Button, Input, Space, Select, Spin } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import MessageReceived from "./MessageReceived";
 import Scrollable from "../../components/Scrollable";
@@ -47,11 +47,15 @@ const MqttData = () => {
   const [mqttClient, setMqttClient] = useState({
     client: null,
     isConnected: false,
+    reconnect: false,
+    reconnectCount: 0,
     error: null,
   });
 
   const [currentPubSubValue, setCurrentPubSubValue] = useState("subscribe");
   const [subscribedToTopic, setSubscribedToTopic] = useState(false);
+
+  const mqttClientRef = useRef(null);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -85,8 +89,29 @@ const MqttData = () => {
         options: inputOptions,
       })
     );
-    const client = mqtt.connect(inputData.host);
-    setMqttClient({ client, isConnected: true, error: null });
+
+    if (mqttClientRef.current) {
+      mqttClientRef.current.end();
+    }
+
+    mqttClientRef.current = mqtt.connect(inputData.host);
+    if (mqttClientRef.current.connected) {
+      setMqttClient({
+        client: mqttClientRef.current,
+        isConnected: true,
+        reconnect: false,
+        reconnectCount: 0,
+        error: null,
+      });
+    } else {
+      setMqttClient({
+        client: null,
+        isConnected: false,
+        reconnect: true,
+        reconnectCount: 0,
+        error: null,
+      });
+    }
   };
 
   const subscribeTopic = () => {
@@ -115,9 +140,37 @@ const MqttData = () => {
   const disconnectClient = () => {
     if (mqttClient.client) {
       mqttClient.client.end();
-      setMqttClient({ client: null, isConnected: false, error: null });
+      setMqttClient({
+        client: null,
+        isConnected: false,
+        reconnect: false,
+        error: null,
+      });
     }
   };
+
+  useEffect(() => {
+    if (mqttClient.reconnect) {
+      const setId = setInterval(() => {
+        setMqttClient((p) => {
+          return {
+            ...p,
+            reconnectCount: p.reconnectCount + 1,
+          };
+        });
+        if (mqttClientRef.current?.connected) {
+          setMqttClient({
+            client: mqttClientRef.current,
+            isConnected: true,
+            reconnect: false,
+            reconnectCount: 0,
+            error: null,
+          });
+          clearInterval(setId);
+        }
+      }, 3000);
+    }
+  }, [mqttClient.reconnect]);
 
   return (
     <div>
@@ -254,6 +307,25 @@ const MqttData = () => {
           </Space.Compact>
         )}
       </div>
+      {!mqttClient.isConnected && mqttClient.reconnect && (
+        <div>
+          <div>
+            <p>Connecting... </p>
+            <Spin
+              spinning={mqttClient.reconnect}
+              percent={mqttClient.reconnectCount}
+              delay={"500"}
+            />
+          </div>
+          <p>Reconnect count: {mqttClient.reconnectCount}</p>
+          {mqttClient.reconnectCount > 5 && (
+            <p>
+              Please check entered detailed. It look like your mqtt broker are
+              not running.
+            </p>
+          )}
+        </div>
+      )}
       <div>
         {mqttClient.isConnected && (
           <div className="display-flex g-25">

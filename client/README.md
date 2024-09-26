@@ -18,7 +18,8 @@ This web application allows users to access and display data from various protoc
 - **Real-Time Data Display:** Data is shown in a tabular format for easy viewing.
 - **User Input:** Users can enter the required details for each protocol.
 - **Cross-Platform:** Serial Port compatible with both Node.js and browser environments.
-- **PWA Support:** Install web as progressive web app on laptop or mobile and work without internet.
+- **PWA Support:** Install web app as progressive web app
+  on laptop or mobile and work without internet for local development.
 
 ## Installation
 

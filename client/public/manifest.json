@@ -104,7 +104,7 @@
   ],
   "related_applications": [
     {
-      "platform": "webapp",
+      "platform": "visualizer webapp",
       "url": "https://abhisheksharma1310.github.io/data-visualizer/"
     }
   ],
