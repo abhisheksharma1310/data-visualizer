@@ -184,6 +184,7 @@ const MqttData = () => {
               value={inputData.host}
               onChange={handleInputChange}
               title="protocol://mqttHost:port"
+              required
               className="input-item"
             />
             <Input
@@ -192,6 +193,7 @@ const MqttData = () => {
               name="clientId"
               value={inputOptions.clientId}
               onChange={handleInputOptionsChange}
+              required
               className="input-item"
             />
             <Input
@@ -201,6 +203,7 @@ const MqttData = () => {
               name="keepalive"
               value={inputOptions.keepalive}
               onChange={handleInputOptionsChange}
+              required
               className="input-item"
             />
             <Input
@@ -209,6 +212,7 @@ const MqttData = () => {
               name="protocolId"
               value={inputOptions.protocolId}
               onChange={handleInputOptionsChange}
+              required
               className="input-item"
             />
           </div>
@@ -219,6 +223,7 @@ const MqttData = () => {
               name="protocolVersion"
               value={inputOptions.protocolVersion}
               onChange={handleInputOptionsChange}
+              required
               className="input-item"
             />
             <Input
@@ -227,6 +232,7 @@ const MqttData = () => {
               name="clean"
               value={inputOptions.clean}
               onChange={handleInputOptionsChange}
+              required
               className="input-item"
             />
             <Input
@@ -235,6 +241,7 @@ const MqttData = () => {
               name="reconnectPeriod"
               value={inputOptions.reconnectPeriod}
               onChange={handleInputOptionsChange}
+              required
               className="input-item"
             />
             <Input
@@ -243,6 +250,7 @@ const MqttData = () => {
               name="connectTimeout"
               value={inputOptions.connectTimeout}
               onChange={handleInputOptionsChange}
+              required
               className="input-item"
             />
           </div>
@@ -303,6 +311,7 @@ const MqttData = () => {
                 handleInputChange(event);
                 setSubscribedToTopic(false);
               }}
+              required
             />
           </Space.Compact>
         )}
@@ -349,7 +358,11 @@ const MqttData = () => {
 
             <div className="input-item">
               <h2>Message to publish</h2>
-              <TextArea name="sendMessage" onChange={handleInputChange}>
+              <TextArea
+                name="sendMessage"
+                onChange={handleInputChange}
+                required
+              >
                 {inputData.sendMessage}
               </TextArea>
               <Button

@@ -81,6 +81,7 @@ const WebSocketData = () => {
           placeholder="wss://echo.websocket.org"
           onChange={(e) => dispatch(setServerAddress(e.target.value))}
           disabled={connectionStatus === "Connected" ? true : false}
+          required
           className="input-item"
         />
         <Button
@@ -131,6 +132,7 @@ const WebSocketData = () => {
               value={message}
               onChange={(e) => dispatch(setMessage(e.target.value))}
               placeholder="Enter message"
+              required
             ></TextArea>
             <Button
               type="primary"

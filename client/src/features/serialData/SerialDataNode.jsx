@@ -67,6 +67,7 @@ export default function SerialDataNode() {
             defaultValue={inputData.comport}
             name="comport"
             onChange={onInputChange}
+            required
             className="input-item"
           />
           <Input
@@ -75,6 +76,7 @@ export default function SerialDataNode() {
             defaultValue={inputData.baudrate}
             name="baudrate"
             onChange={onInputChange}
+            required
             className="input-item"
           />
           <Select
@@ -82,6 +84,7 @@ export default function SerialDataNode() {
             defaultValue={inputData.datatype}
             name="datatype"
             onChange={onSelectChange}
+            required
             className="input-item"
           >
             <Option value="raw">Raw</Option>
@@ -95,6 +98,7 @@ export default function SerialDataNode() {
             defaultValue={inputOptions.pollingInterval}
             name="pollingInterval"
             onChange={onInputOptionChange}
+            required
             className="input-item"
           />
           <Button type="primary" onClick={requestSerialData}>

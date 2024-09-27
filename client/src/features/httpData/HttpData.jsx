@@ -27,6 +27,7 @@ const HttpData = () => {
           type="text"
           value={inputData}
           onChange={(e) => setInputData(e.target.value)}
+          required
           className="input-item"
         />
         <Button type="primary" onClick={handleChangeBaseUrl}>

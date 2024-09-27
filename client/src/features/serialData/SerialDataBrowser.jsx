@@ -103,6 +103,7 @@ const SerialDataBrowser = () => {
           value={baudRate}
           onChange={(e) => setBaudRate(e.target.value)}
           placeholder="Enter Baud Rate"
+          required
           style={{ width: "200px" }}
         />
         <Button onClick={() => (isPortConnected ? closePort() : openPort())}>

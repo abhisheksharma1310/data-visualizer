@@ -2,6 +2,7 @@
 
 <div width="100%">
    <image src="./client/public/mockup.png" />
+   <a href="https://abhisheksharma1310.github.io/data-visualizer" target="_blank">Click here for live demo</a>
 </div>
 
 ## Overview
