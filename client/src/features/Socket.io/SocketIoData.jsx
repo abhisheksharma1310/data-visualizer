@@ -36,11 +36,7 @@ const SocketIoData = () => {
       );
     });
     socketRef.current.on("message", (data) => {
-      const new_data = {
-        time: new Date().toLocaleTimeString(),
-        data: data,
-      };
-      dispatch(addMessage(new_data));
+      dispatch(addMessage(data));
     });
     socketRef.current.on("disconnect", () => {
       dispatch(setConnectionStatus(false));

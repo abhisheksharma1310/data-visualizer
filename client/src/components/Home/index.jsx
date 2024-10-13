@@ -8,15 +8,15 @@ const Home = () => {
         <p className="intro">
           Welcome to our versatile web application, designed to seamlessly
           connect and display data from various protocols including Serial Port,
-          HTTP, MQTT, and WebSocket. Whether you’re a developer, engineer, or
-          hobbyist, our app provides a user-friendly interface to access and
-          visualize your data in real-time.
+          HTTP, MQTT, WebSocket and Socket.io. Whether you’re a developer,
+          engineer, or hobbyist, our app provides a user-friendly interface to
+          access and visualize your data in real-time.
         </p>
         <h2 className="features-title">Key Features:</h2>
         <ul className="features-list">
           <li className="feature-item">
             <strong>Multi-Protocol Support:</strong> Easily connect to Serial
-            Port, HTTP, MQTT, and WebSocket.
+            Port, HTTP, MQTT, WebSocket and Socket.io.
           </li>
           <li className="feature-item">
             <strong>Real-Time Data Display:</strong> View your data in a
