@@ -100,6 +100,18 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Socket.Io",
+      "url": "/socketio-data",
+      "description": "connect to socket.io server",
+      "icons": [
+        {
+          "src": "icon128.png",
+          "sizes": "128x128",
+          "type": "image/png"
+        }
+      ]
     }
   ],
   "related_applications": [
