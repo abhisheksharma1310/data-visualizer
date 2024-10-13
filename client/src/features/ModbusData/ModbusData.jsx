@@ -14,7 +14,6 @@ const ModbusData = () => {
         setData(msg);
       });
 
-      // Example Modbus read request
       client.readHoldingRegisters(0, 2).then((result) => {
         ws.send(result);
       });
