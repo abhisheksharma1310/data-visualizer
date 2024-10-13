@@ -64,10 +64,7 @@ const WebSocketData = () => {
 
   useEffect(() => {
     return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-        dispatch(setConnectionStatus("Disconnected"));
-      }
+      closeConnection();
     };
   }, []);
 

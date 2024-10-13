@@ -15,6 +15,8 @@ import httpDataReducer from "./features/httpData/httpDataSlice";
 import mqttReducer from "./features/mqttData/mqttDataSlice";
 // webSocket data reducer
 import webSocketReducer from "./features/webSocket/webSocketSlice";
+// socketIo data reducer
+import socketIoReducer from "./features/Socket.io/socketSlice";
 
 // Combine your reducers
 const rootReducer = combineReducers({
@@ -23,6 +25,7 @@ const rootReducer = combineReducers({
   httpData: httpDataReducer,
   mqttData: mqttReducer,
   webSocket: webSocketReducer,
+  socketIo: socketIoReducer,
   [serialDataApi.reducerPath]: serialDataApi.reducer,
   [httpDataApi.reducerPath]: httpDataApi.reducer,
 });

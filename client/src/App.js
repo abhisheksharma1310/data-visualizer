@@ -6,6 +6,7 @@ import SerialDataWraper from "./features/serialData/SerialDataWraper";
 import HttpData from "./features/httpData/HttpData";
 import MqttData from "./features/mqttData/mqttData";
 import WebSocketData from "./features/webSocket/WebSocketData";
+import SocketIoData from "./features/Socket.io/SocketIoData";
 
 import "./App.css";
 import Home from "./components/Home";
@@ -33,6 +34,7 @@ export default function App() {
               <Route path="/http-data" element={<HttpData />} />
               <Route path="/mqtt-data" element={<MqttData />} />
               <Route path="/websocket-data" element={<WebSocketData />} />
+              <Route path="/socketio-data" element={<SocketIoData />} />
             </Routes>
           </MainLayout>
         </ConfigProvider>

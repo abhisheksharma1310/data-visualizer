@@ -51,6 +51,12 @@ const menuItems = [
         label: "WebSocket Data",
         icon: <CloudSyncOutlined />,
       },
+      {
+        key: "6",
+        path: "/socketio-data",
+        label: "Socket.Io Data",
+        icon: <CloudSyncOutlined />,
+      },
     ],
   },
 ];
