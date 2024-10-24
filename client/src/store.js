@@ -5,9 +5,6 @@ import { combineReducers } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 // navDetail reducer
 import navDetailReducer from "./features/navDetail/navDetailSlice";
-// serial data reducer and api query service
-import { serialDataApi } from "./services/serialDataApi";
-import serialDataReducer from "./features/serialData/serialDataSlice";
 // http data reducer and api query service
 import { httpDataApi } from "./services/httpDataApi";
 import httpDataReducer from "./features/httpData/httpDataSlice";
@@ -21,12 +18,10 @@ import socketIoReducer from "./features/Socket.io/socketSlice";
 // Combine your reducers
 const rootReducer = combineReducers({
   navDetail: navDetailReducer,
-  serialData: serialDataReducer,
   httpData: httpDataReducer,
   mqttData: mqttReducer,
   webSocket: webSocketReducer,
   socketIo: socketIoReducer,
-  [serialDataApi.reducerPath]: serialDataApi.reducer,
   [httpDataApi.reducerPath]: httpDataApi.reducer,
 });
 
@@ -46,7 +41,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }).concat(serialDataApi.middleware, httpDataApi.middleware),
+    }).concat(httpDataApi.middleware),
 });
 
 export const persistor = persistStore(store);

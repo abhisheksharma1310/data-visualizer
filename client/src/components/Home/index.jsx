@@ -28,7 +28,7 @@ const Home = () => {
           </li>
           <li className="feature-item">
             <strong>Cross-Platform Compatibility:</strong> Serial Port Works
-            seamlessly on both Node.js and browser environments.
+            seamlessly on any browsers.
           </li>
           <li className="feature-item">
             <strong>PWA Support:</strong> Install web app as progressive web app

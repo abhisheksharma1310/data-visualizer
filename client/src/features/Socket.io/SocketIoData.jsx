@@ -14,6 +14,7 @@ import { JsonToTable } from "react-json-to-table";
 
 const SocketIoData = () => {
   const [input, setInput] = useState("");
+  const [error, setError] = useState(null);
   const [serverURL, setServerURL] = useState("http://localhost:5000");
   const socketRef = useRef(null);
   const dispatch = useDispatch();
@@ -25,7 +26,10 @@ const SocketIoData = () => {
     if (!serverURL) return;
     if (socketRef.current) socketRef.current.disconnect();
 
-    socketRef.current = io(serverURL);
+    socketRef.current = io(serverURL, {
+      reconnectionAttempts: 5, // Number of reconnection attempts before giving up
+      timeout: 10000, // Time before connection attempt times out
+    });
     socketRef.current.on("connect", () => {
       dispatch(setConnectionStatus(true));
       dispatch(
@@ -34,6 +38,11 @@ const SocketIoData = () => {
           transport: socketRef.current.io.engine.transport.name,
         })
       );
+      setError(null);
+    });
+    socketRef.current.on("connect_error", (err) => {
+      console.error("Connection Error:", err);
+      setError("Failed to connect to the server. Please try again later.");
     });
     socketRef.current.on("message", (data) => {
       dispatch(addMessage(data));
@@ -88,6 +97,7 @@ const SocketIoData = () => {
           Connection Status: {isConnected ? "Connected" : "Disconnected"}
           {isConnected && <>, Client Id: {connectionDetails?.id}</>}
         </h3>
+        {error && <h3>{error.toString()}</h3>}
       </div>
       {isConnected && (
         <div className="display-flex g-25">

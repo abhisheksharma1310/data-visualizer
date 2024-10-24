@@ -17,7 +17,7 @@ This web application allows users to access and display data from various protoc
 - **Multi-Protocol Support:** Connect to Serial Port, HTTP, MQTT, and WebSocket.
 - **Real-Time Data Display:** Data is shown in a tabular format for easy viewing.
 - **User Input:** Users can enter the required details for each protocol.
-- **Cross-Platform:** Serial Port compatible with both Node.js and browser environments.
+- **Cross-Platform:** Serial Port Worksseamlessly on any browsers.
 - **PWA Support:** Install web app as progressive web app
   on laptop or mobile and work without internet for local development.
 
