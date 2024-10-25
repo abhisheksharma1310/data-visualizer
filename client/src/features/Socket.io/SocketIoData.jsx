@@ -14,6 +14,8 @@ import { JsonToTable } from "react-json-to-table";
 
 const SocketIoData = () => {
   const [input, setInput] = useState("");
+  const [sentEventName, setSentEventName] = useState("message");
+  const [receiveEventName, setReceiveEventName] = useState("message");
   const [error, setError] = useState(null);
   const [serverURL, setServerURL] = useState("http://localhost:5000");
   const socketRef = useRef(null);
@@ -44,7 +46,7 @@ const SocketIoData = () => {
       console.error("Connection Error:", err);
       setError("Failed to connect to the server. Please try again later.");
     });
-    socketRef.current.on("message", (data) => {
+    socketRef.current.on(receiveEventName, (data) => {
       dispatch(addMessage(data));
     });
     socketRef.current.on("disconnect", () => {
@@ -63,7 +65,7 @@ const SocketIoData = () => {
 
   const sendMessage = () => {
     if (socketRef.current) {
-      socketRef.current.emit("message", input);
+      socketRef.current.emit(sentEventName, input);
       setInput("");
     }
   };
@@ -78,10 +80,27 @@ const SocketIoData = () => {
     <div>
       <div className="input-div">
         <Input
+          addonBefore="Socket.Io URL"
           type="text"
-          placeholder="Server URL"
+          placeholder="Socket Server URL"
           value={serverURL}
           onChange={(e) => setServerURL(e.target.value)}
+          className="input-item"
+        />
+        <Input
+          addonBefore="Sent Event Name"
+          type="text"
+          placeholder="Sent Event Name"
+          value={sentEventName}
+          onChange={(e) => setSentEventName(e.target.value)}
+          className="input-item"
+        />
+        <Input
+          addonBefore="Receive Event Name"
+          type="text"
+          placeholder="Receive Event Name"
+          value={receiveEventName}
+          onChange={(e) => setReceiveEventName(e.target.value)}
           className="input-item"
         />
         <Button
