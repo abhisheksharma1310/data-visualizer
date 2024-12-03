@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setReceivedMessages, setClearMessage } from "./mqttDataSlice";
-import { JsonToTable } from "react-json-to-table";
 import { Button } from "antd";
 import Scrollable from "../../components/Scrollable";
+import DataViewer from "../../components/DataViewer/DataViewer";
+import isValidJson from "../../utils/isValidJson";
 
 const MessageReceived = ({ client, topic }) => {
   const dispatch = useDispatch();
@@ -16,12 +17,22 @@ const MessageReceived = ({ client, topic }) => {
   useEffect(() => {
     if (client) {
       const handleMessage = (topic, message) => {
-        dispatch(
-          setReceivedMessages({
-            topic,
-            value: message.toString(),
-          })
-        );
+        if (isValidJson(message)) {
+          const json = JSON.parse(message);
+          dispatch(
+            setReceivedMessages({
+              topic,
+              ...json,
+            })
+          );
+        } else {
+          dispatch(
+            setReceivedMessages({
+              topic,
+              value: message.toString(),
+            })
+          );
+        }
       };
 
       client.on("connect", () => {
@@ -51,18 +62,18 @@ const MessageReceived = ({ client, topic }) => {
         }}
       >
         <h2>
-          {receivedMessages[0]?.time
+          {receivedMessages[0]?.timestamp
             ? "Message Received"
             : "Not Received any message yet"}
         </h2>
-        {receivedMessages[0]?.time && (
+        {receivedMessages[0]?.timestamp && (
           <Button type="primary" danger onClick={clearMessage}>
             Clear data
           </Button>
         )}
       </div>
       <Scrollable height="360px">
-        <JsonToTable json={receivedMessages} />
+        <DataViewer jsonData={receivedMessages} />
       </Scrollable>
     </div>
   );

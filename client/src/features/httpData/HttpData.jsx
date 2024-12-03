@@ -35,7 +35,7 @@ const HttpData = () => {
         </Button>
       </div>
       <Loading isLoading={isLoading} isFetching={isFetching} />
-      <Scrollable height={"260px"}>
+      <Scrollable height={"150px"}>
         {error ? (
           <p>Error: {JSON.stringify(error)}</p>
         ) : (

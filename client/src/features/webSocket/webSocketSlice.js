@@ -18,10 +18,10 @@ const webSocketSlice = createSlice({
       state.message = action.payload;
     },
     addReceivedMessage: (state, action) => {
-      const date = new Date().toLocaleTimeString();
+      const date = new Date();
       const obj = {
-        time: date,
-        data: action.payload,
+        timestamp: date,
+        data: JSON.stringify(action.payload),
       };
       state.receivedMessages = [obj, ...state.receivedMessages];
     },

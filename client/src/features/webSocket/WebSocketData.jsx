@@ -10,7 +10,8 @@ import {
 import { Button, Input, Spin } from "antd";
 import Scrollable from "../../components/Scrollable";
 import TextArea from "antd/es/input/TextArea";
-import { JsonToTable } from "react-json-to-table";
+import DataViewer from "../../components/DataViewer/DataViewer";
+import isValidJson from "../../utils/isValidJson";
 
 const WebSocketData = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,20 @@ const WebSocketData = () => {
     };
 
     socketRef.current.onmessage = (event) => {
-      dispatch(addReceivedMessage(event.data));
+      if (isValidJson(event.data)) {
+        const json = JSON.parse(event.data);
+        dispatch(
+          addReceivedMessage({
+            ...json,
+          })
+        );
+      } else {
+        dispatch(
+          addReceivedMessage({
+            value: event.data.toString(),
+          })
+        );
+      }
     };
 
     socketRef.current.onerror = (error) => {
@@ -107,9 +121,9 @@ const WebSocketData = () => {
       {connectionStatus === "Connected" && (
         <div className="display-flex g-25">
           <div className="max-width">
-            <div className="display-flex">
+            <div className="display-flex" style={{ marginBottom: "10px" }}>
               <h3>Received Messages:</h3>
-              {receivedMessages[0]?.time && (
+              {receivedMessages[0]?.timestamp && (
                 <Button
                   type="primary"
                   danger
@@ -119,8 +133,8 @@ const WebSocketData = () => {
                 </Button>
               )}
             </div>
-            <Scrollable height="360px">
-              <JsonToTable json={receivedMessages} />
+            <Scrollable height="150px">
+              <DataViewer jsonData={receivedMessages} />
             </Scrollable>
           </div>
           <div className="input-item">

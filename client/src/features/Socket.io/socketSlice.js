@@ -11,10 +11,10 @@ const socketIoSlice = createSlice({
   initialState,
   reducers: {
     addMessage: (state, action) => {
-      const date = new Date().toLocaleTimeString();
+      const date = new Date();
       const obj = {
-        time: date,
-        data: action.payload,
+        timestamp: date,
+        data: JSON.stringify(action.payload),
       };
       state.messages = [obj, ...state.messages];
     },

@@ -135,10 +135,10 @@ const MainLayout = ({ children }) => {
         <Header
           style={{
             textAlign: "center",
-            height: "80px",
+            fontSize: "12px",
+            height: "50px",
             ...primaryStyle,
-            margin: 0,
-            padding: 0,
+            padding: "0",
           }}
         >
           <h1>{header}</h1>
@@ -150,18 +150,20 @@ const MainLayout = ({ children }) => {
         >
           <div
             style={{
-              padding: "25px",
+              padding: "25px 25px 0 25px",
               minWidth: "100%",
               minHeight: "100%",
             }}
           >
-            <Scrollable height="200px">{children}</Scrollable>
+            <Scrollable height="150px">{children}</Scrollable>
           </div>
         </Content>
         <Footer
           style={{
-            height: "50px",
+            height: "30px",
             textAlign: "center",
+            margin: "0",
+            padding: "0",
             ...primaryStyle,
           }}
         >

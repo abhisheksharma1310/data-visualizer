@@ -1,7 +1,6 @@
-import React, { useState, useRef } from "react";
-import { Button, Input, Switch } from "antd";
-import Scrollable from "../../components/Scrollable";
-import JsonTable from "../../components/JsonTable/JsonTable";
+import React, { useState, useRef, useEffect } from "react";
+import { Button, Input } from "antd";
+import DataViewer from "../../components/DataViewer/DataViewer";
 
 const SerialData = () => {
   const [baudRate, setBaudRate] = useState(9600);
@@ -12,7 +11,6 @@ const SerialData = () => {
   const [isPortConnected, setIsPortConnected] = useState(false);
   const [error, setError] = useState("");
   const [writeValue, setWriteValue] = useState("");
-  const [dataType, setDataType] = useState("JSON");
 
   const selectPort = async () => {
     try {
@@ -49,33 +47,26 @@ const SerialData = () => {
           break;
         }
         const text = new TextDecoder().decode(value);
-        const time = new Date().toLocaleTimeString();
+        const time = new Date();
         setBuffer((prevBuffer) => {
           const newBuffer = prevBuffer + text.toString();
           const messages = newBuffer.split("\n");
           const completeMessages = messages.slice(0, -1);
           const incompleteMessage = messages[messages.length - 1];
-          if (dataType === "JSON") {
-            completeMessages.forEach((message) => {
-              try {
-                const parsedMessage = JSON.parse(message);
-                const structuredData = {
-                  time,
-                  ...parsedMessage,
-                };
-                setData((prevData) => [structuredData, ...prevData]);
-              } catch (error) {
-                console.error("Error parsing JSON:", error);
-                setError("Error parsing JSON:" + error);
-              }
-            });
-          } else if (completeMessages.length > 0) {
-            const structuredData = {
-              time,
-              data: completeMessages,
-            };
-            setData((prevData) => [structuredData, ...prevData]);
-          }
+
+          completeMessages.forEach((message) => {
+            try {
+              //const data = JSON.parse(message);
+              const structuredData = {
+                timestamp: time,
+                data: message,
+              };
+              setData((prevData) => [structuredData, ...prevData]);
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+              setError("Error parsing JSON:" + error);
+            }
+          });
           return incompleteMessage;
         });
       }
@@ -118,6 +109,12 @@ const SerialData = () => {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      closePort();
+    };
+  }, []);
+
   return (
     <div>
       <div className="input-div">
@@ -133,45 +130,41 @@ const SerialData = () => {
           required
           style={{ width: "200px" }}
         />
-        <Switch
-          title="Data Type"
-          checkedChildren="JSON"
-          unCheckedChildren="RAW"
-          defaultChecked
-          onChange={(checked) =>
-            checked ? setDataType("JSON") : setDataType("RAW")
-          }
-        />
-        <Button onClick={() => (isPortConnected ? closePort() : openPort())}>
-          {isPortConnected ? "Close Port" : "Open Port"}
-        </Button>
+        {!!port?.getInfo()?.usbProductId && (
+          <Button
+            onClick={() => (isPortConnected ? closePort() : openPort())}
+            danger={isPortConnected}
+          >
+            {isPortConnected ? "Close Port" : "Open Port"}
+          </Button>
+        )}
         {data.length > 0 && (
-          <Button type="primary" onClick={() => setData([])}>
+          <Button type="primary" onClick={() => setData([])} danger>
             Clear Data
           </Button>
         )}
+        {isPortConnected && (
+          <>
+            <Input
+              addonBefore="Write Data"
+              placeholder="Enter Data to Send"
+              value={writeValue}
+              onChange={(e) => setWriteValue(e.target.value)}
+              style={{ width: "400px" }}
+            />
+            <Button type="primary" onClick={writeData}>
+              Send Data
+            </Button>
+          </>
+        )}
       </div>
       <div>{error && <p>{error.toString()}</p>}</div>
-      {isPortConnected && (
-        <div className="input-div">
-          <Input
-            addonBefore="Write Data"
-            placeholder="Enter Data to Send"
-            value={writeValue}
-            onChange={(e) => setWriteValue(e.target.value)}
-            style={{ width: "200px" }}
-          />
-          <Button type="primary" onClick={writeData}>
-            Send Data
-          </Button>
+      {data.length > 0 && (
+        <div>
+          <h2>Received Data: </h2>
+          <DataViewer jsonData={data} />
         </div>
       )}
-      <div>
-        <h2>Received Data: </h2>
-        <Scrollable height="360px">
-          <JsonTable jsonData={data} />
-        </Scrollable>
-      </div>
     </div>
   );
 };

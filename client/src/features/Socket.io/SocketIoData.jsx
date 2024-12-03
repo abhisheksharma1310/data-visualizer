@@ -10,7 +10,8 @@ import {
 import { Button, Input } from "antd";
 import Scrollable from "../../components/Scrollable";
 import TextArea from "antd/es/input/TextArea";
-import { JsonToTable } from "react-json-to-table";
+import isValidJson from "../../utils/isValidJson";
+import DataViewer from "../../components/DataViewer/DataViewer";
 
 const SocketIoData = () => {
   const [input, setInput] = useState("");
@@ -47,7 +48,20 @@ const SocketIoData = () => {
       setError("Failed to connect to the server. Please try again later.");
     });
     socketRef.current.on(receiveEventName, (data) => {
-      dispatch(addMessage(data));
+      if (isValidJson(data)) {
+        const json = JSON.parse(data);
+        dispatch(
+          addMessage({
+            ...json,
+          })
+        );
+      } else {
+        dispatch(
+          addMessage({
+            value: data.toString(),
+          })
+        );
+      }
     });
     socketRef.current.on("disconnect", () => {
       dispatch(setConnectionStatus(false));
@@ -121,7 +135,7 @@ const SocketIoData = () => {
       {isConnected && (
         <div className="display-flex g-25">
           <div className="max-width">
-            <div className="display-flex">
+            <div className="display-flex" style={{ marginBottom: "10px" }}>
               <h3>Received Messages:</h3>
               {messages[0] && (
                 <Button
@@ -133,8 +147,8 @@ const SocketIoData = () => {
                 </Button>
               )}
             </div>
-            <Scrollable height="360px">
-              <JsonToTable json={messages} />
+            <Scrollable height="150px">
+              <DataViewer jsonData={messages} />
             </Scrollable>
           </div>
           <div className="input-item">

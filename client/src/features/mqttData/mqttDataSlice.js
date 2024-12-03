@@ -28,10 +28,10 @@ const mqttDataSlice = createSlice({
       state.options = action.payload.options;
     },
     setReceivedMessages: (state, action) => {
-      const date = new Date().toLocaleTimeString();
+      const date = new Date();
       const obj = {
-        time: date,
-        ...action.payload,
+        timestamp: date,
+        data: JSON.stringify(action.payload),
       };
       state.receivedMessages =
         state.receivedMessages.length > 0
